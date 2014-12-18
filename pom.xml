@@ -3,4 +3,13 @@
   <groupId>edu.kit.isco</groupId>
   <artifactId>KitAlumniApp-Server</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
+  <dependencies>
+  	<dependency>
+  <!-- jsoup HTML parser library @ http://jsoup.org/ -->
+  <groupId>org.jsoup</groupId>
+  <artifactId>jsoup</artifactId>
+  <version>1.8.1</version>
+</dependency>
+  </dependencies>
 </project>
