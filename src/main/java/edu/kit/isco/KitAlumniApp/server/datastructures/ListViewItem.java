@@ -67,6 +67,15 @@ public abstract class ListViewItem {
 	public void setFullText(String fullText) {
 		this.fullText = fullText;
 	}
+
+	/**
+	 * @return the url
+	 */
+	public String getUrl() {
+		return url;
+	}
+	
+	
 	
 	
 }
