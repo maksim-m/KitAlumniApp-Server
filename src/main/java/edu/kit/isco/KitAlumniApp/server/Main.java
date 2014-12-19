@@ -1,7 +1,6 @@
 package edu.kit.isco.KitAlumniApp.server;
 
-/**
- * @author Maksim Moiseikin
+/**  
  * @version 0.1
  *
  */
