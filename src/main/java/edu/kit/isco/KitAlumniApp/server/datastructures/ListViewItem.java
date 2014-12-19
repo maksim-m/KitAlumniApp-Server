@@ -9,6 +9,19 @@ public abstract class ListViewItem {
 	private String title;
 	private String shortDescription;
 	private String fullText;
+	private String url;
+	
+	/**
+	 * 
+	 * @param title Title
+	 * @param shortDescription Short Description
+	 * @param url URL
+	 */
+	public ListViewItem(String title, String shortDescription, String url) {
+		this.title = title;
+		this.shortDescription = shortDescription;
+		this.url = url;
+	}
 	
 	/**
 	 * 
@@ -37,6 +50,22 @@ public abstract class ListViewItem {
 	 */
 	public String getFullText() {
 		return fullText;
+	}
+
+	/**
+	 * 
+	 * @param id Id
+	 */
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	/**
+	 * 
+	 * @param fullText Full Text
+	 */
+	public void setFullText(String fullText) {
+		this.fullText = fullText;
 	}
 	
 	
