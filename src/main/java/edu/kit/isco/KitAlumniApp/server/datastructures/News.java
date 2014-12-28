@@ -35,6 +35,20 @@ public class News extends ListViewItem {
 		this.imageUrl = imageUrl;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return new StringBuffer(" ID : ").append(this.getId())
+				.append(" Title : ").append(this.getTitle())
+				.append(" Short Description: ").append(this.getShortDescription())
+				.append(" Full Text : ").append(this.getFullText())
+				.append(" URL : ").append(this.getUrl())
+				.append(" imageURL : ").append(this.getImageUrl())
+				.toString();
+	}
+	
 	
 	
 	
