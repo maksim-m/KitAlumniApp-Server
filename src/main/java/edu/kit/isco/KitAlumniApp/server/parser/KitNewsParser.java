@@ -16,7 +16,7 @@ import edu.kit.isco.KitAlumniApp.server.datastructures.News;
 public class KitNewsParser implements HtmlParser<News> {
 	
 	private String siteUrl;
-	private ArrayList<News> news;
+	private ArrayList<News> newsList;
 	private Document doc = null;
 	
 	
@@ -31,7 +31,7 @@ public class KitNewsParser implements HtmlParser<News> {
 	 * @see edu.kit.isco.KitAlumniApp.server.parser.HtmlParser#init()
 	 */
 	public void init() {
-		news = new ArrayList<News>();
+		newsList = new ArrayList<News>();
 		// TODO Parse URL to news site
 		siteUrl = "http://www.kit.edu/kit/english/news_2014.php";
 		try {
@@ -48,25 +48,25 @@ public class KitNewsParser implements HtmlParser<News> {
 	public ArrayList<News> parseContent() {
 		Element table = doc.select("table[class=tabelle3]").first();
         for (Element tr : table.select("tr")) {
-            Element td = tr.select("td").first();
+            Element td = tr.select("td").first();       
 
             // edu.kit.isco.KitAlumniApp.dataStructures.News title, link
             Element b = td.select("b").first();
             Element a = b.select("a[href]").first();
+            
             String link;
             String title;
             if (a != null) {
-                link = a.attr("href");
+                link = a.attr("abs:href");
                 title = a.text();
             } else {
+            	// something wrong!
                 link = "";
                 title = "";
             }
+            
 
-
-            //System.out.println("link=[" + link + "], title=[" + title +"]");
-
-            // Text
+            // Short description
             Element p = td.select("p").first();
             String text = null;
             if (p != null) {
@@ -74,11 +74,20 @@ public class KitNewsParser implements HtmlParser<News> {
             } else {
                 text = td.text();
             }
+            News news = new News(title, text, link);
+            
+            // image
+            Element image = td.select("img[src]").first();
+            String imageUrl = null;  
+            if (image != null) {
+            	imageUrl = image.absUrl("src");
+            	news.setImageUrl(imageUrl);
+            }  
 
-
-            news.add(new News(title, text, link));
+            newsList.add(news);
+            
         }
-        return news;
+        return newsList;
 	}
 
 	
