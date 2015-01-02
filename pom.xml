@@ -4,6 +4,7 @@
 	<groupId>edu.kit.isco</groupId>
 	<artifactId>KitAlumniApp-Server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,21 +37,15 @@
 	</dependencies>
 
 	<build>
+	<finalName>KitAlumniApp-Server</finalName>
 		<plugins>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.1</version>
+				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<archive>
-						<manifest>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-							<addClasspath>true</addClasspath>
-							<mainClass>edu.kit.isco.KitAlumniApp.server.Main</mainClass>
-						</manifest>
-					</archive>
+					<webXml>WebContent\WEB-INF\web.xml</webXml>
+					<warName>KitAlumniApp-Server</warName>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -69,7 +64,7 @@
 				</executions>
 			</plugin>
 
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.8</version>
@@ -90,7 +85,7 @@
 					<suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
 					<suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
 				</configuration>
-			</plugin>
+			</plugin>  -->
 		</plugins>
 	</build>
 
