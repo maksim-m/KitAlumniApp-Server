@@ -1,11 +1,6 @@
 package edu.kit.isco.KitAlumniApp.server.db;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DbHandler {
 
@@ -29,10 +24,30 @@ public class DbHandler {
 				// Open a connection
 				connection = DriverManager.getConnection(DB_URL, USER, PASS);
 				
+				// Execute a query
+				statement = connection.createStatement();
+				String sql = "CREATE DATABASE TEST";
+				statement.executeUpdate(sql);
+				
 				connection.close();
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} finally {
+				try {
+					if (statement != null) {
+						statement.close();
+					}
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+				try {
+					if (connection != null) {
+						connection.close();
+					}
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
 			}
 	}
 }
