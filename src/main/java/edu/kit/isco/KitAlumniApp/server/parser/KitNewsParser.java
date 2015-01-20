@@ -7,16 +7,16 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import edu.kit.isco.KitAlumniApp.server.datastructures.News;
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
 
 /**
  * News parser.
  * @version 0.1
  */
-public class KitNewsParser implements HtmlParser<News> {
+public class KitNewsParser implements HtmlParser<DataAccessNews> {
 	
 	private String siteUrl;
-	private ArrayList<News> newsList;
+	private ArrayList<DataAccessNews> newsList;
 	private Document doc = null;
 	
 	
@@ -31,7 +31,7 @@ public class KitNewsParser implements HtmlParser<News> {
 	 * @see edu.kit.isco.KitAlumniApp.server.parser.HtmlParser#init()
 	 */
 	public void init() {
-		newsList = new ArrayList<News>();
+		newsList = new ArrayList<DataAccessNews>();
 		// TODO Parse URL to news site
 		siteUrl = "http://www.kit.edu/kit/english/news_2014.php";
 		try {
@@ -45,7 +45,7 @@ public class KitNewsParser implements HtmlParser<News> {
 	 * @see edu.kit.isco.KitAlumniApp.server.parser.HtmlParser#parseContent()
 	 * @return Array with News
 	 */
-	public ArrayList<News> parseContent() {
+	public ArrayList<DataAccessNews> parseContent() {
 		Element table = doc.select("table[class=tabelle3]").first();
         for (Element tr : table.select("tr")) {
             Element td = tr.select("td").first();       
@@ -74,7 +74,7 @@ public class KitNewsParser implements HtmlParser<News> {
             } else {
                 text = td.text();
             }
-            News news = new News(title, text, link);
+            DataAccessNews news = new DataAccessNews(title, text, link);
             
             // image
             Element image = td.select("img[src]").first();

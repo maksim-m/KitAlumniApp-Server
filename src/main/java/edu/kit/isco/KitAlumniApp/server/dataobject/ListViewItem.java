@@ -1,4 +1,4 @@
-package edu.kit.isco.KitAlumniApp.server.datastructures;
+package edu.kit.isco.KitAlumniApp.server.dataobject;
 
 /**
  * 
