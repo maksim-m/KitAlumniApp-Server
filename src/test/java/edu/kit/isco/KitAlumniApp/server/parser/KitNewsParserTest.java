@@ -2,17 +2,17 @@ package edu.kit.isco.KitAlumniApp.server.parser;
 
 import java.util.ArrayList;
 
-import edu.kit.isco.KitAlumniApp.server.datastructures.News;
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
 
 public class KitNewsParserTest {
 	public static void main(String args[]) {
-        HtmlParser<News> kitNewsParser = new KitNewsParser();
+        HtmlParser<DataAccessNews> kitNewsParser = new KitNewsParser();
         kitNewsParser.init();
         
-        ArrayList<News> news = kitNewsParser.parseContent();
+        ArrayList<DataAccessNews> news = kitNewsParser.parseContent();
         
 
-        for (News n : news) {
+        for (DataAccessNews n : news) {
             System.out.println("Title: " + n.getTitle());
             System.out.println("Short Description: " + n.getShortDescription());
             System.out.println("URL: " + n.getUrl());
