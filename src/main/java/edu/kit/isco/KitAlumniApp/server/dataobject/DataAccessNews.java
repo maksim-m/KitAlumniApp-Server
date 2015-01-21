@@ -1,19 +1,47 @@
 package edu.kit.isco.KitAlumniApp.server.dataobject;
 
 import java.util.Calendar;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * News class.
  * @version 0.1
  *
  */
+@Entity
+@Table(name = "news")
+@NamedQuery(name = "DataAccessNews.getAll", query = "SELECT n from DataAccessNews n")
 public class DataAccessNews implements DataAcceessObject {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
+	@Column(name = "title")
 	private String title;
+	
+	@Column(name = "short_description")
 	private String shortDescription;
+	
+	@Column(name = "full_text")
 	private String fullText;
+	
+	@Column(name = "url")
 	private String url;
+	
+	@Column(name = "image_url")
 	private String imageUrl = null;
+	
+	@Column(name = "date")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar date;
 	
 	public DataAccessNews(String title, String shortDescription, String url) {
@@ -22,8 +50,6 @@ public class DataAccessNews implements DataAcceessObject {
 		this.shortDescription = shortDescription;
 		this.url = url;
 	}
-
-	
 	
 	/**
 	 * @return the id
@@ -31,16 +57,6 @@ public class DataAccessNews implements DataAcceessObject {
 	public long getId() {
 		return id;
 	}
-
-
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
-
 
 
 	/**
