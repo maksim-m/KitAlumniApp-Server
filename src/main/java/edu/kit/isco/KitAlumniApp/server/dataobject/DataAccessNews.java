@@ -1,6 +1,7 @@
 package edu.kit.isco.KitAlumniApp.server.dataobject;
 
 import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,6 +44,8 @@ public class DataAccessNews implements DataAcceessObject {
 	@Column(name = "date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar date;
+	
+	public DataAccessNews() { }
 	
 	public DataAccessNews(String title, String shortDescription, String url) {
 		super();
@@ -179,8 +182,59 @@ public class DataAccessNews implements DataAcceessObject {
 				.append(" imageURL : ").append(this.getImageUrl())
 				.toString();
 	}
-	
-	
-	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((shortDescription == null) ? 0 : shortDescription.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((url == null) ? 0 : url.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		DataAccessNews other = (DataAccessNews) obj;
+		if (shortDescription == null) {
+			if (other.shortDescription != null) {
+				return false;
+			}
+		} else if (!shortDescription.equals(other.shortDescription)) {
+			return false;
+		}
+		if (title == null) {
+			if (other.title != null) {
+				return false;
+			}
+		} else if (!title.equals(other.title)) {
+			return false;
+		}
+		if (url == null) {
+			if (other.url != null) {
+				return false;
+			}
+		} else if (!url.equals(other.url)) {
+			return false;
+		}
+		return true;
+	}	
 	
 }
