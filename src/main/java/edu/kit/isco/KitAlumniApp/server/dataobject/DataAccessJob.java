@@ -3,119 +3,98 @@ package edu.kit.isco.KitAlumniApp.server.dataobject;
 import java.util.Calendar;
 import java.util.List;
 
-public class DataAccessJob implements DataAcceessObject {
-	private long id;
-	private String title;
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+@Entity
+@Table(name = "job")
+public class DataAccessJob implements DataAccessObject {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long Id;
+	
+	@ManyToMany
+	@JoinTable(name = "job_tag",
+	joinColumns={@JoinColumn(name = "job_id", referencedColumnName = "Id")},
+	inverseJoinColumns={@JoinColumn(name = "tag_id", referencedColumnName = "Id")})
 	private List<DataAccessTag> tags;
-	private String shortDescription;
-	private String fullText;
+	
+	@Column(name = "title")
+	private String title;
+	
+	@Column(name = "short_info", length = 500)
+	private String shortInfo;
+	
+	@Column(name = "all_text", length = 10000)
+	private String allText;
+
+	@Column(name = "url")
 	private String url;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date")
 	private Calendar date;
 	
-	public DataAccessJob(String title, String url) {
-		super();
-		this.title = title;
-		this.url = url;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return title;
-	}
-
-	/**
-	 * @param title the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	/**
-	 * @return the tags
-	 */
-	public List<DataAccessTag> getTags() {
-		return tags;
-	}
-
-	/**
-	 * @param tags the tags to set
-	 */
-	public void setTags(List<DataAccessTag> tags) {
+	public DataAccessJob() {};
+	public DataAccessJob(List<DataAccessTag> tags, String title, String shortInfo, String allText, String url, Calendar date) {
 		this.tags = tags;
-	}
-
-	/**
-	 * @return the shortDescription
-	 */
-	public String getShortDescription() {
-		return shortDescription;
-	}
-
-	/**
-	 * @param shortDescription the shortDescription to set
-	 */
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
-	}
-
-	/**
-	 * @return the fullText
-	 */
-	public String getFullText() {
-		return fullText;
-	}
-
-	/**
-	 * @param fullText the fullText to set
-	 */
-	public void setFullText(String fullText) {
-		this.fullText = fullText;
-	}
-
-	/**
-	 * @return the url
-	 */
-	public String getUrl() {
-		return url;
-	}
-
-	/**
-	 * @param url the url to set
-	 */
-	public void setUrl(String url) {
+		this.title = title;
+		this.shortInfo = shortInfo;
+		this.allText = allText;
 		this.url = url;
-	}
-
-	/**
-	 * @return the date
-	 */
-	public Calendar getDate() {
-		return date;
-	}
-
-	/**
-	 * @param date the date to set
-	 */
-	public void setDate(Calendar date) {
 		this.date = date;
 	}
 	
+	public long getId() {return Id;}
+	public List<DataAccessTag> getTags() {return tags;}
+	public String getTitle() {return title;}
+	public String getShortInfo() {return shortInfo;}
+	public String getAllText() {return allText;}
+	public String getUrl() {return url;}
+	public Calendar getDate() {return date;}
+	public void setId(long id) {Id = id;}
+	public void setTags(List<DataAccessTag> tags) {this.tags = tags;}
+	public void setTitle(String title) {this.title = title;}
+	public void setShortInfo(String shortInfo) {this.shortInfo = shortInfo;}
+	public void setAllText(String allText) {this.allText = allText;}
+	public void setUrl(String url) {this.url = url;}
+	public void setDate(Calendar date) {this.date = date;}
 	
-
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		DataAccessJob other = (DataAccessJob) obj;
+		if (shortInfo == null) {
+			if (other.shortInfo != null) {
+				return false;
+			}
+		} else if (!shortInfo.equals(other.shortInfo)) {
+			return false;
+		}
+		if (title == null) {
+			if (other.title != null) {
+				return false;
+			}
+		} else if (!title.equals(other.title)) {
+			return false;
+		}
+		if (url == null) {
+			if (other.url != null) {
+				return false;
+			}
+		} else if (!url.equals(other.url)) {
+			return false;
+		}
+		return true;
+	}
 }

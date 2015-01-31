@@ -74,7 +74,7 @@ public class KitNewsParser implements HtmlParser<DataAccessNews> {
             } else {
                 text = td.text();
             }
-            DataAccessNews news = new DataAccessNews(title, text, link);
+            DataAccessNews news = new DataAccessNews(title, text, "", link, "", null);
             
             // image
             Element image = td.select("img[src]").first();

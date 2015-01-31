@@ -24,6 +24,7 @@ public class DbHandlerServiceTest {
 	public void tearDown() throws Exception {
 	}
 
+	/*
 	@Test
 	public void testGetAll() {
 		HtmlParser<DataAccessNews> kitNewsParser = new KitNewsParser();
@@ -37,5 +38,6 @@ public class DbHandlerServiceTest {
         
         Assert.assertTrue(parsedNews.equals(newsFromDb));
 	}
+	*/
 
 }

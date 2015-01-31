@@ -2,106 +2,53 @@ package edu.kit.isco.KitAlumniApp.server.dataobject;
 
 import java.util.Calendar;
 
-public class DataAccessEvent implements DataAcceessObject {
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+@Entity
+@Table(name = "event")
+public class DataAccessEvent implements DataAccessObject {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long Id;
 	
-	private long id;
+	@Column(name = "title")
 	private String title;
-	private String shortDescription;
-	private String fullText;
+	
+	@Column(name = "short_info", length = 500)
+	private String shortInfo;
+	
+	@Column(name = "all_text", length = 10000)
+	private String allText;
+
+	@Column(name = "url")
 	private String url;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date")
 	private Calendar date;
 	
-	public DataAccessEvent(String title, String shortDescription, String url) {
-		super();
+	public DataAccessEvent() {}
+	public DataAccessEvent(String title, String shortInfo, String allText, String url, Calendar date) {
 		this.title = title;
-		this.shortDescription = shortDescription;
+		this.shortInfo = shortInfo;
+		this.allText = allText;
 		this.url = url;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return title;
-	}
-
-	/**
-	 * @param title the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	/**
-	 * @return the shortDescription
-	 */
-	public String getShortDescription() {
-		return shortDescription;
-	}
-
-	/**
-	 * @param shortDescription the shortDescription to set
-	 */
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
-	}
-
-	/**
-	 * @return the fullText
-	 */
-	public String getFullText() {
-		return fullText;
-	}
-
-	/**
-	 * @param fullText the fullText to set
-	 */
-	public void setFullText(String fullText) {
-		this.fullText = fullText;
-	}
-
-	/**
-	 * @return the url
-	 */
-	public String getUrl() {
-		return url;
-	}
-
-	/**
-	 * @param url the url to set
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	/**
-	 * @return the date
-	 */
-	public Calendar getDate() {
-		return date;
-	}
-
-	/**
-	 * @param date the date to set
-	 */
-	public void setDate(Calendar date) {
 		this.date = date;
 	}
 	
-	
-
+	public long getId() {return Id;}
+	public String getTitle() {return title;}
+	public String getShortInfo() {return shortInfo;}
+	public String getAllText() {return allText;}
+	public String getUrl() {return url;}
+	public Calendar getDate() {return date;}
+	public void setId(long id) {Id = id;}
+	public void setTitle(String title) {this.title = title;}
+	public void setShortInfo(String shortInfo) {this.shortInfo = shortInfo;}
+	public void setAllText(String allText) {this.allText = allText;}
+	public void setUrl(String url) {this.url = url;}
+	public void setDate(Calendar date) {this.date = date;}	
 }
