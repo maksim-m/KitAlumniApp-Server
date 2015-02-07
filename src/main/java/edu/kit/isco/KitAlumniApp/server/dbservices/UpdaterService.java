@@ -28,9 +28,11 @@ public class UpdaterService extends HttpServlet {
 	private static final long UPDATE_TIMEOUT = 20;
 	
 	public void init(ServletConfig cfg) {
+		
 		executor.scheduleAtFixedRate(new JobUpdater(new JobParser()), 1, UPDATE_TIMEOUT, TimeUnit.MINUTES);
 		executor.scheduleAtFixedRate(new NewsUpdater(new NewsParser()), 1, UPDATE_TIMEOUT, TimeUnit.MINUTES);
 		executor.scheduleAtFixedRate(new EventUpdater(new EventParser()), 1, UPDATE_TIMEOUT, TimeUnit.MINUTES);
+		
 		
 	}
 	
