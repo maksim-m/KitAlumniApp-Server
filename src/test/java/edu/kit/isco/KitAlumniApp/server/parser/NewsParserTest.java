@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
 
-public class KitNewsParserTest {
+public class NewsParserTest {
 	public static void main(String args[]) {
-        HtmlParser<DataAccessNews> kitNewsParser = new KitNewsParser();
+        Parser<DataAccessNews> kitNewsParser = new NewsParser();
         kitNewsParser.init();
         
         ArrayList<DataAccessNews> news = kitNewsParser.parseContent();

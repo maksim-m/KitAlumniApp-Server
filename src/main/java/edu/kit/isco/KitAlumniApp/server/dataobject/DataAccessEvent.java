@@ -31,10 +31,9 @@ public class DataAccessEvent implements DataAccessObject {
 	private Calendar date;
 	
 	public DataAccessEvent() {}
-	public DataAccessEvent(String title, String shortInfo, String allText, String url, Calendar date) {
+	public DataAccessEvent(String title, String shortInfo, String url, Calendar date) {
 		this.title = title;
 		this.shortInfo = shortInfo;
-		this.allText = allText;
 		this.url = url;
 		this.date = date;
 	}

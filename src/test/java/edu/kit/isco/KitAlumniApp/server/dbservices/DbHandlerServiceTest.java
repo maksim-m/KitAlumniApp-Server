@@ -11,8 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
-import edu.kit.isco.KitAlumniApp.server.parser.HtmlParser;
-import edu.kit.isco.KitAlumniApp.server.parser.KitNewsParser;
+import edu.kit.isco.KitAlumniApp.server.parser.Parser;
+import edu.kit.isco.KitAlumniApp.server.parser.NewsParser;
 
 public class DbHandlerServiceTest {
 
