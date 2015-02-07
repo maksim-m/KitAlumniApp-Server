@@ -12,8 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
-import edu.kit.isco.KitAlumniApp.server.parser.HtmlParser;
-import edu.kit.isco.KitAlumniApp.server.parser.KitNewsParser;
+import edu.kit.isco.KitAlumniApp.server.parser.Parser;
+import edu.kit.isco.KitAlumniApp.server.parser.NewsParser;
 
 
 @Path("/service")
@@ -23,7 +23,7 @@ public class JerseyRestService {
 	@Path("/news")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public List<DataAccessNews> produseJSON(  ) {
-			HtmlParser<DataAccessNews> kitNewsParser = new KitNewsParser();
+			Parser<DataAccessNews> kitNewsParser = new NewsParser();
 	        kitNewsParser.init();
 	        ArrayList<DataAccessNews> news = kitNewsParser.parseContent();
 			

@@ -1,12 +1,22 @@
 package edu.kit.isco.KitAlumniApp.server.parser;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 
-public interface Parser {
-	
-	public void init();
-	public List<DataAccessObject> parseContent();
-
+/**
+ * 
+ *
+ * @param <E>
+ * @version 0.1
+ */
+public interface Parser<E> {
+	/**
+	 * Initialize parser with URL, check internet connection etc.
+	 */
+    public void init();
+    /**
+     * 
+     * @return Array with instances of ListViewItem.
+     */
+    public ArrayList<E> parseContent();
 }
