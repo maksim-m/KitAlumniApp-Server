@@ -19,6 +19,15 @@
     <url-pattern>/rest/*</url-pattern>
 </servlet-mapping>
 
+<servlet>
+	<servlet-name>updater-service</servlet-name>
+	<servlet-class>edu.kit.isco.KitAlumniApp.server.dbservices.UpdaterService</servlet-class>
+</servlet>
+<servlet-mapping>
+	<servlet-name>updater-service</servlet-name>
+	<url-pattern>/*</url-pattern>
+</servlet-mapping>
+
 <!-- <servlet>
     <servlet-name>PrimeSearcher</servlet-name>
     <servlet-class>edu.kit.isco.KitAlumniApp.server.PrimeSearcher</servlet-class>
