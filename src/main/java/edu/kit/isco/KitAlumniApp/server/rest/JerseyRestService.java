@@ -83,8 +83,7 @@ public class JerseyRestService {
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public List<DataAccessEvent> nextEvents() {
 		Calendar date = Calendar.getInstance();
-		date.add(Calendar.MONTH, 1);
-		
+		date.add(Calendar.MONTH, 1);		
 		List<DataAccessEvent> events = DbHandlerService.getAllEvents();
 		for (DataAccessEvent e : events) {
 			if (e.getDate().getTimeInMillis() > date.getTimeInMillis() &&
