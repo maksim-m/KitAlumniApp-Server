@@ -34,15 +34,14 @@ public class EventParser implements Parser<DataAccessEvent> {
 	 * @see edu.kit.isco.KitAlumniApp.server.parser.HtmlParser#parseContent()
 	 */
 	public ArrayList<DataAccessEvent> parseContent() {
-		// TODO Auto-generated method stub
-		return null;
+		events = parseEventsList();
+		parseEventsDetails(events);
+		return events;
 	}
 
 
 
-	private List<DataAccessEvent> parseEventsList() {
-		List<DataAccessEvent> events = new ArrayList<DataAccessEvent>();
-		
+	private ArrayList<DataAccessEvent> parseEventsList() {		
 		Element contentDiv = doc.getElementById("content");
 		Element table = contentDiv.select("table").first();
 		table = table.select("tbody").first();
@@ -73,4 +72,22 @@ public class EventParser implements Parser<DataAccessEvent> {
 		return events;
 	}
 
+	private void parseEventsDetails(ArrayList<DataAccessEvent> events) {
+		Document eventSite = null;
+		for(DataAccessEvent event : events) {
+			try {
+				eventSite = Jsoup.connect(event.getUrl()).get();
+	        } catch (IOException e) {
+	            // TODO Throws exception
+	        	continue;
+	        }
+			if (eventSite == null) {
+				continue;
+			}
+			Element contentDiv = doc.getElementById("content");
+			Element table = contentDiv.select("table").first();
+			table = table.select("tbody").first();
+			event.setAllText(table.html());
+		}
+	}
 }
