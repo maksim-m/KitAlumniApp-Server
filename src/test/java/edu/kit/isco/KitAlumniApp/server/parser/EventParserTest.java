@@ -28,10 +28,9 @@ public class EventParserTest {
 	}
 	
 	@Test
-	@Ignore
 	public void testParseContent() {
 		
-		Assert.assertNull(parser.parseContent());
+		Assert.assertNotNull(parser.parseContent());
 	}
 	
 

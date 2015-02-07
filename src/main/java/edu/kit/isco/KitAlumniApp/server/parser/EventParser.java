@@ -1,7 +1,10 @@
 package edu.kit.isco.KitAlumniApp.server.parser;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -50,11 +53,17 @@ public class EventParser implements Parser<DataAccessEvent> {
 			Element tableRow = tableRows.get(i);
 			Element eventDateDiv = tableRow.getElementsByClass("datum").first();
 			String eventDate = eventDateDiv.text();
-			System.out.print(eventDate + " ");
 			Element eventTimeDiv = tableRow.getElementsByClass("time").first();
 			String eventTime = eventTimeDiv.text();
-			// TODO: convert Date and Time to Calendar
-			System.out.print(eventTime + " ");
+			// TODO: convert Time to Calendar
+			Calendar calendar = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+			try {
+				calendar.setTime(sdf.parse(eventDate));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
 			Element a = tableRow.select("a[href]").first();
 			String eventUrl = a.attr("abs:href");
 			String eventName = a.text();
@@ -65,7 +74,7 @@ public class EventParser implements Parser<DataAccessEvent> {
 				eventShortInfo = eventType.text();
 			}
 			
-			DataAccessEvent event = new DataAccessEvent(eventName, eventShortInfo, eventUrl, null);
+			DataAccessEvent event = new DataAccessEvent(eventName, eventShortInfo, eventUrl, calendar);
 			events.add(event);
 		}		
 		
