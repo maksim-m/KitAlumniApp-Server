@@ -14,7 +14,7 @@ public class KitNewsParserTest {
 
         for (DataAccessNews n : news) {
             System.out.println("Title: " + n.getTitle());
-            System.out.println("Short Description: " + n.getShortDescription());
+            System.out.println("Short Description: " + n.getShortInfo());
             System.out.println("URL: " + n.getUrl());
             System.out.println("Image URL: " + n.getImageUrl());
             System.out.println("-----");
