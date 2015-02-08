@@ -22,22 +22,22 @@ import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-//import javax.servlet.ServletContextEvent;
-//import javax.servlet.ServletContextListener;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 /**
  * Context initializer that loads the API key from a
  * {@value #PATH} file located in the classpath (typically under
  * {@code WEB-INF/classes}).
  */
-public class ApiKeyInitializer{// implements ServletContextListener {
+public class ApiKeyInitializer implements ServletContextListener {
 
   static final String ATTRIBUTE_ACCESS_KEY = "apiKey";
 
-  private static final String PATH = "/api.key";
+  private static final String PATH = "api.key";
 
   private final Logger logger = Logger.getLogger(getClass().getName());
-/*
+
   public void contextInitialized(ServletContextEvent event) {
     logger.info("Reading " + PATH + " from resources (probably from " +
         "WEB-INF/classes");
@@ -70,6 +70,6 @@ public class ApiKeyInitializer{// implements ServletContextListener {
     }
   }
 
- // public void contextDestroyed(ServletContextEvent event) {}
+ public void contextDestroyed(ServletContextEvent event) {}
 
 }

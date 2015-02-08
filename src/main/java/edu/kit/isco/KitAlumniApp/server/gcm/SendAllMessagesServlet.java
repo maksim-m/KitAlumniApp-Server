@@ -15,6 +15,8 @@
  */
 package edu.kit.isco.KitAlumniApp.server.gcm;
 
+
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,41 +24,46 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Servlet that adds a new message to all registered devices.
  * <p>
  * This servlet is used just by the browser (i.e., not device).
  */
 @SuppressWarnings("serial")
-public class SendAllMessagesServlet {
+public class SendAllMessagesServlet extends BaseServlet {
 
   private static final int MULTICAST_SIZE = 1000;
 
   private Sender sender;
 
   private static final Executor threadPool = Executors.newFixedThreadPool(5);
-/*
+
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
     sender = newSender(config);
   }
-*/
+
   /**
    * Creates the {@link Sender} based on the servlet settings.
-   *//*
+   */
   protected Sender newSender(ServletConfig config) {
     String key = (String) config.getServletContext()
         .getAttribute(ApiKeyInitializer.ATTRIBUTE_ACCESS_KEY);
     return new Sender(key);
-  }*/
-
+  }
+  
   /**
    * Processes the request to add a new message.
    */
-  
-  protected void doPost()
-      throws IOException {
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, ServletException {
     List<String> devices = Datastore.getDevices();
     String status;
     if (devices.isEmpty()) {
@@ -78,7 +85,6 @@ public class SendAllMessagesServlet {
         status = "Sent message to one device: " + result;
       }
     }
-   // req.setAttribute(HomeServlet.ATTRIBUTE_STATUS, status.toString());
-   // getServletContext().getRequestDispatcher("/home").forward(req, resp);
+    getServletContext().getRequestDispatcher("/home").forward(req, resp);
   }
 }
