@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
@@ -24,10 +25,11 @@ public class DbHandlerServiceTest {
 	public void tearDown() throws Exception {
 	}
 
-	/*
+	
 	@Test
+	@Ignore
 	public void testGetAll() {
-		HtmlParser<DataAccessNews> kitNewsParser = new KitNewsParser();
+		Parser<DataAccessNews> kitNewsParser = new NewsParser();
         kitNewsParser.init();
         
         ArrayList<DataAccessNews> parsedNews = kitNewsParser.parseContent();
@@ -38,6 +40,6 @@ public class DbHandlerServiceTest {
         
         Assert.assertTrue(parsedNews.equals(newsFromDb));
 	}
-	*/
+	
 
 }

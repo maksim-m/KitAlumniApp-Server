@@ -14,7 +14,10 @@
             <property name="hibernate.connection.username" value="test"/>
             <property name="hibernate.connection.password" value="testpassword"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="show_sql" value="ture" />
+            <property name="javax.persistence.schema-generation-action" value="create"/>
+            <property name="javax.persistence.schema-generation-target" value="database"/>
         </properties>
     </persistence-unit>
 </persistence>

@@ -29,9 +29,9 @@ public class UpdaterService extends HttpServlet {
 	
 	public void init(ServletConfig cfg) {
 		
-		executor.scheduleAtFixedRate(new JobUpdater(new JobParser()), 1, UPDATE_TIMEOUT, TimeUnit.MINUTES);
-		executor.scheduleAtFixedRate(new NewsUpdater(new NewsParser()), 1, UPDATE_TIMEOUT, TimeUnit.MINUTES);
-		executor.scheduleAtFixedRate(new EventUpdater(new EventParser()), 1, UPDATE_TIMEOUT, TimeUnit.MINUTES);
+		executor.scheduleAtFixedRate(new JobUpdater(new JobParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
+		executor.scheduleAtFixedRate(new NewsUpdater(new NewsParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
+		executor.scheduleAtFixedRate(new EventUpdater(new EventParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
 		
 		
 	}

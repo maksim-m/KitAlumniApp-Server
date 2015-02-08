@@ -2,14 +2,17 @@ package edu.kit.isco.KitAlumniApp.server.updater;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessJob;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 import edu.kit.isco.KitAlumniApp.server.parser.JobParser;
+import edu.kit.isco.KitAlumniApp.server.parser.Parser;
 import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
 
 public class JobUpdater extends AbstractUpdater {
 	
-	public JobUpdater(JobParser parser)  {
+	public JobUpdater(Parser parser)  {
 		super(parser);
 	}
 	
