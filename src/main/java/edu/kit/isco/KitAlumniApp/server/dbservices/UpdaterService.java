@@ -18,22 +18,16 @@ import edu.kit.isco.KitAlumniApp.server.updater.NewsUpdater;
 
 public class UpdaterService extends HttpServlet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	
-	
-	private static final ScheduledExecutorService executor = Executors.newScheduledThreadPool(3);
 	private static final long UPDATE_TIMEOUT = 20;
 	
+	private ScheduledExecutorService executor;	
+	
 	public void init(ServletConfig cfg) {
-		
+		executor = Executors.newScheduledThreadPool(3);
 		executor.scheduleAtFixedRate(new JobUpdater(new JobParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
 		executor.scheduleAtFixedRate(new NewsUpdater(new NewsParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
 		executor.scheduleAtFixedRate(new EventUpdater(new EventParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
-		
-		
 	}
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse res) {}

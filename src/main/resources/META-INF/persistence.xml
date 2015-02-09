@@ -15,9 +15,11 @@
             <property name="hibernate.connection.password" value="testpassword"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <property name="show_sql" value="ture" />
-            <property name="javax.persistence.schema-generation-action" value="create"/>
-            <property name="javax.persistence.schema-generation-target" value="database"/>
+            <property name="show_sql" value="ture"/>
+            <property name="format_sql" value="true"/>
+            <property name="use_sql_comments" value="true"/>
+            <!-- <property name="javax.persistence.schema-generation-action" value="create"/>
+            <property name="javax.persistence.schema-generation-target" value="database"/> -->
         </properties>
     </persistence-unit>
 </persistence>
