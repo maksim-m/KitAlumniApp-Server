@@ -36,8 +36,9 @@ public class EventUpdater extends AbstractUpdater {
 
 	@Override
 	public boolean updateDb(List<DataAccessObject> items) {
-		for (DataAccessObject event : items) {
-			DbHandlerService.saveEvent((DataAccessEvent) event);
+		for (int i = 0; i < items.size(); i++) {
+			DataAccessEvent event = (DataAccessEvent) items.get(i);
+			DbHandlerService.saveEvent(event);
 		}
 		return true;
 	}

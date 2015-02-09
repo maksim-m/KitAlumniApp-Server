@@ -56,4 +56,17 @@ public class DataAccessNews {
 	public void setUrl(String url) {this.url = url;}
 	public void setImageUrl(String imageUrl) {this.imageUrl = imageUrl;}
 	public void setDate(Calendar date) {this.date = date;}	
+	
+	@Override
+	public String toString() {
+		return new StringBuffer("ID : ").append(this.Id)
+						.append(" Title : ").append(this.title)
+						.append(" Short Info : ").append(this.shortInfo)
+						.append(" All Text : ").append(this.allText)
+						.append(" URL : ").append(this.url)
+						.append(" Image Url : ").append(this.imageUrl)
+						.append(" Date : ").append(this.date.toString())
+						.toString();
+	}
+	
 }

@@ -31,9 +31,10 @@ public class DataAccessEvent implements DataAccessObject {
 	private Calendar date;
 	
 	public DataAccessEvent() {}
-	public DataAccessEvent(String title, String shortInfo, String url, Calendar date) {
+	public DataAccessEvent(String title, String shortInfo, String allText, String url, Calendar date) {
 		this.title = title;
 		this.shortInfo = shortInfo;
+		this.allText = allText;
 		this.url = url;
 		this.date = date;
 	}
@@ -50,4 +51,15 @@ public class DataAccessEvent implements DataAccessObject {
 	public void setAllText(String allText) {this.allText = allText;}
 	public void setUrl(String url) {this.url = url;}
 	public void setDate(Calendar date) {this.date = date;}	
+	
+	@Override
+	public String toString() {
+		return new StringBuffer("ID : ").append(this.Id)
+						.append(" Title : ").append(this.title)
+						.append(" Short Info : ").append(this.shortInfo)
+						.append(" All Text : ").append(this.allText)
+						.append(" URL : ").append(this.url)
+						.append(" Date : ").append(this.date.toString())
+						.toString();
+	}
 }

@@ -67,14 +67,13 @@ public class EventParser implements Parser<DataAccessEvent> {
 			Element a = tableRow.select("a[href]").first();
 			String eventUrl = a.attr("abs:href");
 			String eventName = a.text();
-			
 			Element eventType = tableRow.getElementsByClass("eventtype").first();
 			String eventShortInfo = "";
 			if (eventType != null) {
 				eventShortInfo = eventType.text();
 			}
 			
-			DataAccessEvent event = new DataAccessEvent(eventName, eventShortInfo, eventUrl, calendar);
+			DataAccessEvent event = new DataAccessEvent(eventName, eventShortInfo, "", eventUrl, calendar);
 			events.add(event);
 		}		
 		

@@ -2,6 +2,7 @@ package edu.kit.isco.KitAlumniApp.server.parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -48,7 +49,7 @@ public class NewsParser implements Parser<DataAccessNews> {
 	public ArrayList<DataAccessNews> parseContent() {
 		Element table = doc.select("table[class=tabelle3]").first();
         for (Element tr : table.select("tr")) {
-            Element td = tr.select("td").first();       
+            Element td = tr.select("td").first();
 
             // edu.kit.isco.KitAlumniApp.dataStructures.News title, link
             Element b = td.select("b").first();
@@ -74,7 +75,7 @@ public class NewsParser implements Parser<DataAccessNews> {
             } else {
                 text = td.text();
             }
-            DataAccessNews news = new DataAccessNews(title, text, "", link, "", null);
+            DataAccessNews news = new DataAccessNews(title, text, "", link, "", Calendar.getInstance());
             
             // image
             Element image = td.select("img[src]").first();

@@ -142,6 +142,7 @@ private static EntityManagerFactory FACTORY;
 	}
 
 	public static void saveEvent(DataAccessEvent event) {
+		event.toString();
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
 		manager.merge(event);

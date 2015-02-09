@@ -1,5 +1,6 @@
 package edu.kit.isco.KitAlumniApp.server.dbservices;
 
+import java.util.Calendar;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
 import edu.kit.isco.KitAlumniApp.server.parser.EventParser;
 import edu.kit.isco.KitAlumniApp.server.parser.JobParser;
 import edu.kit.isco.KitAlumniApp.server.parser.NewsParser;
@@ -26,9 +28,9 @@ public class UpdaterService extends HttpServlet {
 	public void init(ServletConfig cfg) {
 		
 		executor = Executors.newScheduledThreadPool(3);
-		executor.scheduleAtFixedRate(new JobUpdater(new JobParser()), 1, UPDATE_TIMEOUT, TimeUnit.MINUTES);
-		executor.scheduleAtFixedRate(new NewsUpdater(new NewsParser()), 1, UPDATE_TIMEOUT, TimeUnit.MINUTES);
-		executor.scheduleAtFixedRate(new EventUpdater(new EventParser()), 1, UPDATE_TIMEOUT, TimeUnit.MINUTES);
+		executor.scheduleAtFixedRate(new JobUpdater(new JobParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
+		executor.scheduleAtFixedRate(new NewsUpdater(new NewsParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
+		executor.scheduleAtFixedRate(new EventUpdater(new EventParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
 		
 		
 	}

@@ -15,7 +15,6 @@ public abstract class AbstractUpdater implements Runnable {
 	
 	public AbstractUpdater(Parser parser) {
 		this.parser = parser;
-		parser.init();
 	}
 	
 	public void run() {

@@ -36,8 +36,9 @@ public class NewsUpdater extends AbstractUpdater {
 
 	@Override
 	public boolean updateDb(List<DataAccessObject> items) {
-		for (DataAccessObject news : items) {
-			DbHandlerService.saveNews((DataAccessNews) news);
+		for (int i = 0; i < items.size(); i++) {
+			DataAccessNews news = (DataAccessNews) items.get(i);
+			DbHandlerService.saveNews(news);
 		}
 		return true;
 	}
