@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.kit.isco.KitAlumniApp.server.gcm;
+package edu.kit.isco.KitAlumniApp.server.gcm.servlets;
 
 
 
@@ -28,6 +28,12 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import edu.kit.isco.KitAlumniApp.server.gcm.ApiKeyInitializer;
+import edu.kit.isco.KitAlumniApp.server.gcm.Datastore;
+import edu.kit.isco.KitAlumniApp.server.gcm.Message;
+import edu.kit.isco.KitAlumniApp.server.gcm.Result;
+import edu.kit.isco.KitAlumniApp.server.gcm.Sender;
 
 /**
  * Servlet that adds a new message to all registered devices.
@@ -54,7 +60,7 @@ public class SendAllMessagesServlet extends BaseServlet {
    */
   protected Sender newSender(ServletConfig config) {
     String key = (String) config.getServletContext()
-        .getAttribute(ApiKeyInitializer.ATTRIBUTE_ACCESS_KEY);
+        .getAttribute(ApiKeyInitializer.getAccessKey());
     return new Sender(key);
   }
   

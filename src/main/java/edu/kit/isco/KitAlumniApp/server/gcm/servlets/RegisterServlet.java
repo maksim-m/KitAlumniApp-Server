@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.kit.isco.KitAlumniApp.server.gcm;
+package edu.kit.isco.KitAlumniApp.server.gcm.servlets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import edu.kit.isco.KitAlumniApp.server.gcm.Datastore;
 
 /**
  * Servlet that registers a device, whose registration id is identified by

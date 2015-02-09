@@ -44,6 +44,10 @@ public class ApiKeyInitializer implements ServletContextListener {
     String key = getKey();
     event.getServletContext().setAttribute(ATTRIBUTE_ACCESS_KEY, key);
   }
+  
+  public static String getAccessKey() {
+	  return ATTRIBUTE_ACCESS_KEY;
+  }
 
   /**
    * Gets the access key.

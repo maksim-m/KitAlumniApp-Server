@@ -11,7 +11,7 @@
   <servlet>
     <servlet-name>RegisterServlet</servlet-name>
     <servlet-class>
-      edu.kit.isco.KitAlumniApp.server.gcm.RegisterServlet
+      edu.kit.isco.KitAlumniApp.server.gcm.servlets.RegisterServlet
     </servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
@@ -24,7 +24,7 @@
   <servlet>
     <servlet-name>UnregisterServlet</servlet-name>
     <servlet-class>
-      edu.kit.isco.KitAlumniApp.server.gcm.UnregisterServlet
+      edu.kit.isco.KitAlumniApp.server.gcm.servlets.UnregisterServlet
     </servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
@@ -37,7 +37,7 @@
   <servlet>
     <servlet-name>SendAllMessagesServlet</servlet-name>
     <servlet-class>
-      edu.kit.isco.KitAlumniApp.server.gcm.SendAllMessagesServlet
+      edu.kit.isco.KitAlumniApp.server.gcm.servlets.SendAllMessagesServlet
     </servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
@@ -51,7 +51,7 @@
   <servlet>
     <servlet-name>HomeServlet</servlet-name>
     <servlet-class>
-      edu.kit.isco.KitAlumniApp.server.gcm.HomeServlet
+      edu.kit.isco.KitAlumniApp.server.gcm.servlets.HomeServlet
     </servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>

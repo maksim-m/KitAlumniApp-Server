@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.kit.isco.KitAlumniApp.server.gcm;
+package edu.kit.isco.KitAlumniApp.server.gcm.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +21,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import edu.kit.isco.KitAlumniApp.server.gcm.Datastore;
 
 /**
  * Servlet that adds display number of devices and button to send a message.
