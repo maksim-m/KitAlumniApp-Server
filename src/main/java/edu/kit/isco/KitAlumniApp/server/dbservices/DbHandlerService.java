@@ -7,15 +7,27 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
+
 import edu.kit.isco.KitAlumniApp.server.dataobject.*;
 
+@WebListener 
+public class DbHandlerService implements ServletContextListener{
+	
+private static EntityManagerFactory FACTORY;
+	
+	@Override
+	public void contextDestroyed(ServletContextEvent arg0) {
+		FACTORY.close();		
+	}
 
-public class DbHandlerService {
-	
-	private static final EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("KitAlumniAppPersistenceUnit");
-	
-	static {
-		EntityManager manager = DbHandlerService.getEntityManager();
+	@Override
+	public void contextInitialized(ServletContextEvent arg0) {
+		FACTORY = Persistence.createEntityManagerFactory("KitAlumniAppPersistenceUnit");
+		
+		EntityManager manager = FACTORY.createEntityManager();
 		manager.getTransaction().begin();
 		manager.persist(DataAccessTag.INFORMATICS);
 		manager.persist(DataAccessTag.CHEMISTRY);
@@ -31,9 +43,10 @@ public class DbHandlerService {
 		manager.persist(DataAccessTag.MECHANICAL_ENGINEERING);
 		manager.getTransaction().commit();
 		manager.close();
+		
 	}
 	
-	private static EntityManager getEntityManager() {
+	public static EntityManager getEntityManager() {
 		return FACTORY.createEntityManager();
 	}
 	

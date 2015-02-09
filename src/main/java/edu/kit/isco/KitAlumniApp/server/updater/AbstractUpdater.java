@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
+import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
 import edu.kit.isco.KitAlumniApp.server.parser.Parser;
 
 public abstract class AbstractUpdater implements Runnable {
@@ -14,6 +15,7 @@ public abstract class AbstractUpdater implements Runnable {
 	
 	public AbstractUpdater(Parser parser) {
 		this.parser = parser;
+		parser.init();
 	}
 	
 	public void run() {
