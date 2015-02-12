@@ -30,6 +30,8 @@ public class DbHandlerServiceTest {
 	@Ignore
 	public void testGetAll() {
 		Parser<DataAccessNews> kitNewsParser = new NewsParser();
+		/*HtmlParser<DataAccessNews> kitNewsParser = new KitNewsParser();
+>>>>>>> origin/feature/gcm
         kitNewsParser.init();
         
         ArrayList<DataAccessNews> parsedNews = kitNewsParser.parseContent();
@@ -38,7 +40,7 @@ public class DbHandlerServiceTest {
         
         List<DataAccessNews> newsFromDb = DbHandlerService.getAllNews();
         
-        Assert.assertTrue(parsedNews.equals(newsFromDb));
+        Assert.assertTrue(parsedNews.equals(newsFromDb));*/
 	}
 	
 
