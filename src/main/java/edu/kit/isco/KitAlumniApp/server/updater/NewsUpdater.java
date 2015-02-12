@@ -19,25 +19,29 @@ public class NewsUpdater extends AbstractUpdater {
 	@Override
 	public boolean dataChanged(List<DataAccessObject> list) {
 		List<DataAccessNews> load = DbHandlerService.getAllNews();
-		return load.get(load.size()).equals(list.get(list.size()));
+		if (load.isEmpty()) 
+			return true;
+		return !((DataAccessNews)list.get(0)).equals(load.get(load.size() - 1));
 	}
 
 	@Override
 	public List<DataAccessObject> selectChangedItems(List<DataAccessObject> list) {
 		List<DataAccessNews> load = DbHandlerService.getAllNews();
+		if (load.isEmpty())
+			return list;
 		DataAccessNews last = load.get(load.size() - 1);
+		int i = 0;
+		while (i < list.size() && !last.equals(list.get(i))) {
+			i++;
+		}
 		
-		int size = list.size() - 1;
-		while (size >= 0 && !last.equals(list.get(size)))
-			size--;
-		
-		return list.subList(size, list.size() - 1);
+		return list.subList(0, i);
 	}
 
 	@Override
 	public boolean updateDb(List<DataAccessObject> items) {
-		for (int i = 0; i < items.size(); i++) {
-			DataAccessNews news = (DataAccessNews) items.get(i);
+		while (!items.isEmpty()) {
+			DataAccessNews news = (DataAccessNews) items.remove(items.size() - 1);
 			DbHandlerService.saveNews(news);
 		}
 		return true;

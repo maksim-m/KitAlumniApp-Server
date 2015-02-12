@@ -1,6 +1,7 @@
 package edu.kit.isco.KitAlumniApp.server.dbservices;
 
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -26,13 +27,10 @@ public class UpdaterService extends HttpServlet {
 	private ScheduledExecutorService executor;	
 	
 	public void init(ServletConfig cfg) {
-		
 		executor = Executors.newScheduledThreadPool(3);
 		executor.scheduleAtFixedRate(new JobUpdater(new JobParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
 		executor.scheduleAtFixedRate(new NewsUpdater(new NewsParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
-		executor.scheduleAtFixedRate(new EventUpdater(new EventParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
-		
-		
+		executor.scheduleAtFixedRate(new EventUpdater(new EventParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);	
 	}
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse res) {}

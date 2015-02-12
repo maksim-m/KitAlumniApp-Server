@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -133,10 +132,11 @@ private static EntityManagerFactory FACTORY;
 	}
 	
 	public static List<DataAccessNews> getAllNews() {
+		List<DataAccessNews> list = null;
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
 		Query q = manager.createQuery("FROM DataAccessNews", DataAccessNews.class);
-		List<DataAccessNews> list = (List<DataAccessNews>) q.getResultList();
+		list = (List<DataAccessNews>) q.getResultList();
 		manager.close();
 		return list;
 	}

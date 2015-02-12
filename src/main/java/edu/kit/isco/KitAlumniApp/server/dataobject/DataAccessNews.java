@@ -69,4 +69,63 @@ public class DataAccessNews {
 						.toString();
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		DataAccessNews other = (DataAccessNews) obj;
+		if (shortInfo == null) {
+			if (other.shortInfo != null) {
+				return false;
+			}
+		} else if (!shortInfo.equals(other.shortInfo)) {
+			return false;
+		}
+		if (allText == null) {
+			if (other.allText != null) {
+				return false;
+			}
+		} else if (!allText.equals(other.allText)) {
+			return false;
+		}
+		if (imageUrl == null) {
+			if (other.imageUrl != null) {
+				return false;
+			}
+		} else if (!imageUrl.equals(other.imageUrl)) {
+			return false;
+		}
+		if (title == null) {
+			if (other.title != null) {
+				return false;
+			}
+		} else if (!title.equals(other.title)) {
+			return false;
+		}
+		if (url == null) {
+			if (other.url != null) {
+				return false;
+			}
+		} else if (!url.equals(other.url)) {
+			return false;
+		}
+		if (date == null) {
+			if (other.date != null) {
+				return false;
+			}
+		} else if (date.get(Calendar.YEAR) != other.date.get(Calendar.YEAR)
+				|| date.get(Calendar.MONTH) != other.date.get(Calendar.MONTH)
+				|| date.get(Calendar.DAY_OF_MONTH) != other.date.get(Calendar.DAY_OF_MONTH)) {
+			return false;
+		}
+		return true;
+	}
+	
 }

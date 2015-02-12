@@ -54,7 +54,8 @@ public class NewsParser implements Parser<DataAccessNews> {
             // edu.kit.isco.KitAlumniApp.dataStructures.News title, link
             Element b = td.select("b").first();
             Element a = b.select("a[href]").first();
-            
+            Element c = td.select("span").first();
+  
             String link;
             String title;
             if (a != null) {
@@ -75,7 +76,7 @@ public class NewsParser implements Parser<DataAccessNews> {
             } else {
                 text = td.text();
             }
-            DataAccessNews news = new DataAccessNews(title, text, "", link, "", Calendar.getInstance());
+            DataAccessNews news = new DataAccessNews(title, text, "", link, "", parseDate(c.text()));
             
             // image
             Element image = td.select("img[src]").first();
@@ -91,6 +92,11 @@ public class NewsParser implements Parser<DataAccessNews> {
         return newsList;
 	}
 
+	private Calendar parseDate(String date) {
+		Calendar c = Calendar.getInstance();
+		c.set(Integer.parseInt(date.substring(7, 11)), Integer.parseInt(date.substring(4, 6)) - 1, Integer.parseInt(date.substring(1, 3)));
+		return c;
+	}
 	
 
 }
