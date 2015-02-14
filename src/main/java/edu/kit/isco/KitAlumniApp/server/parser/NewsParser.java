@@ -19,6 +19,7 @@ public class NewsParser implements Parser<DataAccessNews> {
 	private String siteUrl;
 	private ArrayList<DataAccessNews> newsList;
 	private Document doc = null;
+	private boolean firstTime = true;
 	
 	
 	/**
@@ -34,7 +35,7 @@ public class NewsParser implements Parser<DataAccessNews> {
 	public void init() {
 		newsList = new ArrayList<DataAccessNews>();
 		// TODO Parse URL to news site
-		siteUrl = "http://www.kit.edu/kit/english/news_2014.php";
+		siteUrl = "http://www.kit.edu/kit/english/news_" + Integer.toString(Calendar.getInstance().get(Calendar.YEAR)) + ".php";
 		try {
             doc = Jsoup.connect(siteUrl).get();
         } catch (IOException e) {
@@ -47,48 +48,73 @@ public class NewsParser implements Parser<DataAccessNews> {
 	 * @return Array with News
 	 */
 	public ArrayList<DataAccessNews> parseContent() {
-		Element table = doc.select("table[class=tabelle3]").first();
-        for (Element tr : table.select("tr")) {
-            Element td = tr.select("td").first();
-
-            // edu.kit.isco.KitAlumniApp.dataStructures.News title, link
-            Element b = td.select("b").first();
-            Element a = b.select("a[href]").first();
-            Element c = td.select("span").first();
-  
-            String link;
-            String title;
-            if (a != null) {
-                link = a.attr("abs:href");
-                title = a.text();
-            } else {
-            	// something wrong!
-                link = "";
-                title = "";
-            }
-            
-
-            // Short description
-            Element p = td.select("p").first();
-            String text = null;
-            if (p != null) {
-                text = p.text();
-            } else {
-                text = td.text();
-            }
-            DataAccessNews news = new DataAccessNews(title, text, "", link, "", parseDate(c.text()));
-            
-            // image
-            Element image = td.select("img[src]").first();
-            String imageUrl = null;  
-            if (image != null) {
-            	imageUrl = image.absUrl("src");
-            	news.setImageUrl(imageUrl);
-            }  
-
-            newsList.add(news);
-            
-        }
+		if (firstTime) {
+			Element box = doc.getElementById("menu-box");
+			Element media = box.select("ul").first();
+			Element list = media.select("li").get(3);
+			media = list.select("ul").first();
+			list = media.select("li").first();
+			media = list.select("ul").first();
+			firstTime = !firstTime;
+			for (Element e : media.select("li")) {
+				Element url = e.select("a[href]").first();
+				siteUrl = url.attr("abs:href");
+				try {
+					doc = Jsoup.connect(siteUrl).get();
+				} catch (IOException e1) {
+					continue;
+				}
+				parseContent();
+				System.out.println(newsList.size());
+			}
+		} else {
+			Element table = doc.select("table[class=tabelle3]").first();
+	        for (Element tr : table.select("tr")) {
+	            Element td = tr.select("td").first();
+	
+	            // edu.kit.isco.KitAlumniApp.dataStructures.News title, link
+	            Element b = td.select("b").first();
+	            Element a = b.select("a[href]").first();
+	            Element c = td.select("span").first();
+	            
+	            Calendar date = null;
+	            try {
+	            	date = parseDate(c.text());
+	            } catch (Exception e) {
+	            }
+	            String link ="";
+	            String title ="";
+	            if (a != null) {
+	                link = a.attr("abs:href");
+	                title = a.text();
+	            } else {
+	            	// something wrong!
+	                link = "";
+	                title = "";
+	            } 
+	            
+	
+	            // Short description
+	            Element p = td.select("p").first();
+	            String text = null;
+	            if (p != null) {
+	                text = p.text();
+	            } else {
+	                text = td.text();
+	            }
+	            DataAccessNews news = new DataAccessNews(title, text, "", link, "", date);
+	            
+	            // image
+	            Element image = td.select("img[src]").first();
+	            String imageUrl = null;  
+	            if (image != null) {
+	            	imageUrl = image.absUrl("src");
+	            	news.setImageUrl(imageUrl);
+	            } 
+	            newsList.add(news);
+            	
+	        }
+	    }
         return newsList;
 	}
 

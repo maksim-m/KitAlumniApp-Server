@@ -23,7 +23,7 @@ public class DataAccessEvent implements DataAccessObject {
 	@Column(name = "all_text", length = 10000)
 	private String allText;
 
-	@Column(name = "url")
+	@Column(name = "url", length = 1000)
 	private String url;
 	
 	@Temporal(TemporalType.DATE)

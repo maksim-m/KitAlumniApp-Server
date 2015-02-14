@@ -23,10 +23,10 @@ public class DataAccessNews {
 	@Column(name = "all_text", length = 10000)
 	private String allText;
 
-	@Column(name = "url")
+	@Column(name = "url", length = 1000)
 	private String url;
 	
-	@Column(name = "image_url")
+	@Column(name = "image_url", length = 1000)
 	private String imageUrl;
 	
 	@Temporal(TemporalType.DATE)

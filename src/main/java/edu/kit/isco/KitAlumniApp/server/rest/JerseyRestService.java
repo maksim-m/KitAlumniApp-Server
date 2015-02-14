@@ -96,16 +96,16 @@ public class JerseyRestService {
 	
 	
 	@POST
-	@Path("/users/{user}")
+	@Path("/users")
 	@Consumes("application/json")
-	public void registerUser(@PathParam("user") DataAccessUser user) {
+	public void registerUser(DataAccessUser user) {
 		DbHandlerService.saveUser(user);
 	}
 	
 	@PUT
-	@Path("users/{user}")
+	@Path("/users")
 	@Consumes("application/json")
-	public void updateUser(@PathParam("user") DataAccessUser user) {
+	public void updateUser(DataAccessUser user) {
 		DataAccessUser prev = DbHandlerService.getUser(user.getClientId());
 		prev.setClientId(user.getClientId());
 		prev.setPassword(user.getPassword());
@@ -114,9 +114,9 @@ public class JerseyRestService {
 	}
 	
 	 @DELETE
-	 @Path("users/{user}")
+	 @Path("/users")
 	 @Consumes("application/json")
-	 public void deleteUser(@PathParam("user") DataAccessUser user) {
+	 public void deleteUser(DataAccessUser user) {
 		 DbHandlerService.deleteUser(user.getClientId());
 	 }
 	
