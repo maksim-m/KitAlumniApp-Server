@@ -65,7 +65,6 @@ public class NewsParser implements Parser<DataAccessNews> {
 					continue;
 				}
 				parseContent();
-				System.out.println(newsList.size());
 			}
 		} else {
 			Element table = doc.select("table[class=tabelle3]").first();

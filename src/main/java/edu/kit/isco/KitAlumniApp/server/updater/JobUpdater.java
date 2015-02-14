@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessJob;
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 import edu.kit.isco.KitAlumniApp.server.parser.JobParser;
 import edu.kit.isco.KitAlumniApp.server.parser.Parser;
@@ -19,25 +20,29 @@ public class JobUpdater extends AbstractUpdater {
 	@Override
 	public boolean dataChanged(List<DataAccessObject> list) {
 		List<DataAccessJob> load = DbHandlerService.getAllJobs();
-		return load.get(load.size()).equals(list.get(list.size()));
+		if (load.isEmpty()) 
+			return true;
+		return !((DataAccessJob)list.get(0)).equals(load.get(load.size() - 1));
 	}
 
 	@Override
 	public List<DataAccessObject> selectChangedItems(List<DataAccessObject> list) {
 		List<DataAccessJob> load = DbHandlerService.getAllJobs();
+		if (load.isEmpty())
+			return list;
 		DataAccessJob last = load.get(load.size() - 1);
-		
-		int size = list.size() - 1;
-		while (size >= 0 && !last.equals(list.get(size)))
-			size--;
-		
-		return list.subList(size, list.size() - 1);
+		int i = 0;
+		while (i < list.size() && !last.equals(list.get(i))) {
+			i++;
+		}
+		return list.subList(0, i);
 	}
 
 	@Override
-	public boolean updateDb(List<DataAccessObject> list) {
-		for (DataAccessObject job : list) {
-			DbHandlerService.saveJob((DataAccessJob) job);
+	public boolean updateDb(List<DataAccessObject> items) {
+		while (!items.isEmpty()) {
+			DataAccessJob jobs = (DataAccessJob) items.remove(items.size() - 1);
+			DbHandlerService.saveJob(jobs);
 		}
 		return true;
 	}
