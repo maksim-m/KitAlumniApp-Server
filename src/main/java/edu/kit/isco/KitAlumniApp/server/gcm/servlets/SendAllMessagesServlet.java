@@ -33,7 +33,6 @@ import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
 import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
 import edu.kit.isco.KitAlumniApp.server.gcm.ApiKeyInitializer;
 import edu.kit.isco.KitAlumniApp.server.gcm.Constants;
-import edu.kit.isco.KitAlumniApp.server.gcm.Datastore;
 import edu.kit.isco.KitAlumniApp.server.gcm.Message;
 import edu.kit.isco.KitAlumniApp.server.gcm.MulticastResult;
 import edu.kit.isco.KitAlumniApp.server.gcm.Result;

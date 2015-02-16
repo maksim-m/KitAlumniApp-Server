@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
 import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
-import edu.kit.isco.KitAlumniApp.server.gcm.Datastore;
 
 /**
  * Servlet that adds display number of devices and button to send a message.
