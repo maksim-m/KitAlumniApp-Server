@@ -2,3 +2,5 @@
 /out/
 /build/
 *.checkstyle
+/src/main/resources/api.key
+/src/main/java/META-INF/persistence.xml

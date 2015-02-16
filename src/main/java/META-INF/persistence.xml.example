@@ -10,9 +10,14 @@
  
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/kitalumniapp"/>
-            <property name="hibernate.connection.username" value="test"/>
-            <property name="hibernate.connection.password" value="testpassword"/>
+			
+			<!-- database host and name -->
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/MyDatabaseName"/>
+			<!-- username -->
+            <property name="hibernate.connection.username" value="exampleUser"/>
+			<!-- password -->
+            <property name="hibernate.connection.password" value="qwerty12345"/>
+			
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="show_sql" value="ture"/>
