@@ -9,32 +9,6 @@
   </listener> 
   
   <servlet>
-    <servlet-name>RegisterServlet</servlet-name>
-    <servlet-class>
-      edu.kit.isco.KitAlumniApp.server.gcm.servlets.RegisterServlet
-    </servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>RegisterServlet</servlet-name>
-    <url-pattern>/register</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>UnregisterServlet</servlet-name>
-    <servlet-class>
-      edu.kit.isco.KitAlumniApp.server.gcm.servlets.UnregisterServlet
-    </servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>UnregisterServlet</servlet-name>
-    <url-pattern>/unregister</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
     <servlet-name>SendAllMessagesServlet</servlet-name>
     <servlet-class>
       edu.kit.isco.KitAlumniApp.server.gcm.servlets.SendAllMessagesServlet

@@ -22,6 +22,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
+import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
 import edu.kit.isco.KitAlumniApp.server.gcm.Datastore;
 
 /**
@@ -53,7 +55,7 @@ public class HomeServlet extends BaseServlet {
     if (status != null) {
       out.print(status);
     }
-    List<String> devices = Datastore.getDevices();
+    List<DataAccessUser> devices = DbHandlerService.getAllUsers();
     if (devices.isEmpty()) {
       out.print("<h2>No devices registered!</h2>");
     } else {
