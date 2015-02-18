@@ -8,18 +8,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "tag")
 public class DataAccessTag implements DataAccessObject {
 	
-	public static final DataAccessTag INFORMATICS 			 = new DataAccessTag("Informatics");
-	public static final DataAccessTag CHEMISTRY 			 = new DataAccessTag("Chemistry");
-	public static final DataAccessTag BIOLOGY				 = new DataAccessTag("Biology");
-	public static final DataAccessTag MATHEMATICS	 		 = new DataAccessTag("Mathematics");
-	public static final DataAccessTag ELECTRICAL_ENGINEERING = new DataAccessTag("Electrical Engineering");
-	public static final DataAccessTag ENGINEERING			 = new DataAccessTag("Engineering");
-	public static final DataAccessTag PHYSICS				 = new DataAccessTag("Physics");
-	public static final DataAccessTag PROCESS_ENGINEERING	 = new DataAccessTag("Process Engineering");
-	public static final DataAccessTag MEDICINE 				 = new DataAccessTag("Medicine");
-	public static final DataAccessTag ECONOMICS				 = new DataAccessTag("Economics");
-	public static final DataAccessTag LAW					 = new DataAccessTag("Law");
-	public static final DataAccessTag MECHANICAL_ENGINEERING = new DataAccessTag("Mechanical Engineering");
+	public static final DataAccessTag DATA_ADMINISTRATION    	= new DataAccessTag("Employe in Data Administration");
+	public static final DataAccessTag TRAINEE 			 		= new DataAccessTag("Trainee");
+	public static final DataAccessTag CLERK				 		= new DataAccessTag("Clerk");
+	public static final DataAccessTag GRADUAND	 		 		= new DataAccessTag("Graduand");
+	public static final DataAccessTag DOCTORAND 		 		= new DataAccessTag("Doctorand");
+	public static final DataAccessTag ENGINEER			 		= new DataAccessTag("FH/BA Engineer");
+	public static final DataAccessTag INDUSTRIAL				= new DataAccessTag("Industrial Job");
+	public static final DataAccessTag SALES_OCCUPATION	 		= new DataAccessTag("Sales Occupation");
+	public static final DataAccessTag THRESHOLD_WORKER 			= new DataAccessTag("Threshold Worker");
+	public static final DataAccessTag PROFESSOR			 		= new DataAccessTag("Professor");
+	public static final DataAccessTag TECHNICAL_EMPLOYEE		= new DataAccessTag("Technical Employee");
+	public static final DataAccessTag STUDENT_RESEARCH_PROJECT 	= new DataAccessTag("Student Research Project");
+	public static final DataAccessTag ADMINISTRATION 			= new DataAccessTag("Administration");
+	public static final DataAccessTag SCIENTIST 				= new DataAccessTag("Scientist");
+	public static final DataAccessTag OTHERS 					= new DataAccessTag("Others");
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

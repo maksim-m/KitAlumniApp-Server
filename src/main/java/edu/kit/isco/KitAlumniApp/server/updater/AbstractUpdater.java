@@ -24,7 +24,6 @@ public abstract class AbstractUpdater implements Runnable {
 			items = this.selectChangedItems(items);
 			this.updateDb(items);
 			this.sendNotification(items);
-		} else {
 		}
 	}
 	
