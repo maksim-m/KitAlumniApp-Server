@@ -92,7 +92,7 @@ public class EventParser implements Parser<DataAccessEvent> {
 			if (eventSite == null) {
 				continue;
 			}
-			Element contentDiv = doc.getElementById("content");
+			Element contentDiv = eventSite.getElementById("content");
 			Element table = contentDiv.select("table").first();
 			table = table.select("tbody").first();
 			event.setAllText(table.html());
