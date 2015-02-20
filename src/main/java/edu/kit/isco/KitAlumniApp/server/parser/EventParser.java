@@ -17,10 +17,9 @@ import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 
 public class EventParser implements Parser<DataAccessEvent> {
 	
-	private static final String SITE_URL = "http://www.intl.kit.edu/iforscher/5980.php/list";
 	private ArrayList<DataAccessEvent> events;
 	private Document doc = null;
-	
+	private static final String SITE_URL = "http://www.intl.kit.edu/iforscher/5980.php/list";
 
 	public void init() {
 		events = new ArrayList<DataAccessEvent>();
@@ -92,10 +91,17 @@ public class EventParser implements Parser<DataAccessEvent> {
 			if (eventSite == null) {
 				continue;
 			}
+			StringBuilder htmlText = new StringBuilder();
+			htmlText.append("<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">");
+			htmlText.append("<title>");
+			htmlText.append(event.getTitle());
+			htmlText.append("</title></head><body>");
 			Element contentDiv = eventSite.getElementById("content");
 			Element table = contentDiv.select("table").first();
 			table = table.select("tbody").first();
-			event.setAllText(table.html());
+			htmlText.append(table.html());
+			htmlText.append("</body></html>");
+			event.setAllText(htmlText.toString());
 		}
 	}
 }

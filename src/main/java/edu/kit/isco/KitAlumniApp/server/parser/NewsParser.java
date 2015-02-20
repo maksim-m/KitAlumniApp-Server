@@ -146,8 +146,9 @@ public class NewsParser implements Parser<DataAccessNews> {
 			htmlText.append(n.getTitle());
 			htmlText.append("</title></head><body>");
 			Element contentDiv = newsSite.getElementById("content");
+			htmlText.append(contentDiv.html());
 			htmlText.append("</body></html>");
-			n.setAllText(contentDiv.html());
+			n.setAllText(htmlText.toString());
 		}
 	}
 	
