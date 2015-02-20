@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.jboss.logging.Logger;
+
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
 import edu.kit.isco.KitAlumniApp.server.parser.Parser;
@@ -12,6 +14,8 @@ public abstract class AbstractUpdater implements Runnable {
 	
 	private ServletContext context;
 	private Parser parser;
+	
+	protected final Logger logger = Logger.getLogger(getClass().getName());
 	
 	public AbstractUpdater(Parser parser) {
 		this.parser = parser;
@@ -22,8 +26,8 @@ public abstract class AbstractUpdater implements Runnable {
 		List<DataAccessObject> items = parser.parseContent();
 		if (dataChanged(items)) {
 			items = this.selectChangedItems(items);
-			this.updateDb(items);
 			this.sendNotification(items);
+			this.updateDb(items);
 		}
 	}
 	
