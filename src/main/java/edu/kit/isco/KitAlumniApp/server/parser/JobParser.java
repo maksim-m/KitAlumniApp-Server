@@ -65,7 +65,7 @@ public class JobParser implements Parser<DataAccessJob> {
 	}
 
 	/* (non-Javadoc)
-	 * @see edu.kit.isco.KitAlumniApp.server.parser.HtmlParser#parseContent()
+	 * @see edu.kit.isco.KitAlumniApp.server.parser.Parser#parseContent()
 	 */
 	public ArrayList<DataAccessJob> parseContent() {
 		DataAccessJob job;
@@ -90,23 +90,8 @@ public class JobParser implements Parser<DataAccessJob> {
 			while (ma.find()) {
 				href = ma.group();
 			}
-			try {
-				URL url =  new URL("http://stellen.jobs.kit.edu" + href);
-				BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-
-				StringBuffer result = new StringBuffer();
-				String line = "";
-				while ((line = in.readLine()) != null) {
-					result.append(line);
-				}
-				in.close();
-				job = new DataAccessJob(tags, title, shortInfo, result.toString(), url.getPath(), null);
-				jobList.add(job);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
+			job = new DataAccessJob(tags, title, shortInfo, "http://stellen.jobs.kit.edu" + href);
+			jobList.add(job);
 		}
 		return jobList;
 	}

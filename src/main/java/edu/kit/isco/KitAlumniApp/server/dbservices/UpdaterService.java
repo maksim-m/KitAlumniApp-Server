@@ -33,6 +33,9 @@ public class UpdaterService extends HttpServlet {
 		executor.scheduleAtFixedRate(new EventUpdater(new EventParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);	
 	}
 	
-	public void doGet(HttpServletRequest req, HttpServletResponse res) {}
+	public void destroy() {
+		executor.shutdownNow();
+	}
+	
 
 }

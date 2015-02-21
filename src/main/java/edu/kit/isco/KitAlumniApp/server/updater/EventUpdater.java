@@ -19,12 +19,12 @@ import edu.kit.isco.KitAlumniApp.server.parser.Parser;
 
 public class EventUpdater extends AbstractUpdater {
 
-	Sender sender;
+	private Sender sender;
 	
 	public EventUpdater(Parser parser) {
 		super(parser);
 		logger.info("Apikey = " + ApiKeyInitializer.getAccessKey());
-		sender = new Sender(yourApiKey);
+		sender = new Sender(ApiKeyInitializer.getApiKey());
 	}
 
 	@Override
@@ -60,6 +60,7 @@ public class EventUpdater extends AbstractUpdater {
 
 	@Override
 	public void sendNotification(List<DataAccessObject> list) {
+		/*
 		List<DataAccessUser> users = DbHandlerService.getAllUsers();
 		List<String> userRegIds = new ArrayList<String>();
 		for(DataAccessUser user : users) {
@@ -117,6 +118,6 @@ public class EventUpdater extends AbstractUpdater {
 	          }
 		}
 		
-	}
+	}*/
 	}
 }

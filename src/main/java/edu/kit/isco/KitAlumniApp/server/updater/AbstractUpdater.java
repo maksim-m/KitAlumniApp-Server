@@ -26,8 +26,8 @@ public abstract class AbstractUpdater implements Runnable {
 		List<DataAccessObject> items = parser.parseContent();
 		if (dataChanged(items)) {
 			items = this.selectChangedItems(items);
-			this.sendNotification(items);
-			this.updateDb(items);
+			sendNotification(items);	
+			this.updateDb(items);	
 		}
 	}
 	

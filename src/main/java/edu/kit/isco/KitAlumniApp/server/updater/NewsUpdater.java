@@ -26,7 +26,7 @@ public class NewsUpdater extends AbstractUpdater {
 	
 	public NewsUpdater(Parser parser) {
 		super(parser);
-		sender = new Sender(yourApiKey);
+		sender = new Sender(ApiKeyInitializer.getApiKey());
 	}
 
 	@Override
