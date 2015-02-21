@@ -10,18 +10,33 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import edu.kit.isco.KitAlumniApp.server.dataobject.*;
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessJob;
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessTag;
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
 
+/**
+ * This class represents the interface to the database connection
+ * @author Alexander Mueller
+ *
+ */
 @WebListener 
 public class DbHandlerService implements ServletContextListener{
 	
 private static EntityManagerFactory FACTORY;
 	
+	/**
+	 * Executed at server shutdown. Closes all connectivites to the database.
+	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		FACTORY.close();		
 	}
 
+	/**
+	 * Executed at server start. Initializes the database connectivity and saves the predefined job categories.
+	 */
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		FACTORY = Persistence.createEntityManagerFactory("KitAlumniAppPersistenceUnit");
@@ -47,10 +62,20 @@ private static EntityManagerFactory FACTORY;
 		
 	}
 	
+	/**
+	 * Creates and returns a EntityManager object, which represents a database connection,
+	 * which can be used to execute SQL statements. 
+	 * A EntityManager object has to be closed after a finished transaction, since it is not threadsafe.
+	 * @return a newly created EntityManager object
+	 */
 	public static EntityManager getEntityManager() {
 		return FACTORY.createEntityManager();
 	}
 	
+	/**
+	 * Saves or Updates a given user into the database.
+	 * @param user the user object to save or update into the database
+	 */
 	public static void saveUser(DataAccessUser user) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -59,6 +84,10 @@ private static EntityManagerFactory FACTORY;
 		manager.close();
 	}
 	
+	/**
+	 * Deletes a user with a given registration id from the database.
+	 * @param clientId the registration id of a user
+	 */
 	public static void deleteUser(String clientId) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -69,6 +98,11 @@ private static EntityManagerFactory FACTORY;
 		manager.close();
 	}
 	
+	/**
+	 * Returns a user object by a given registration id. Returns null if no such user exists.
+	 * @param clientId the registration id which the user is searched for
+	 * @return the user with the given registration id
+	 */
 	public static DataAccessUser getUser(String clientId) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -76,9 +110,15 @@ private static EntityManagerFactory FACTORY;
 		q.setParameter("clientId", clientId);
 		List<DataAccessUser> list = (List<DataAccessUser>) q.getResultList();
 		manager.close();
+		if (list.isEmpty())
+			return null;
 		return list.get(0);
 	}
 	
+	/**
+	 * Returns a list of all users saved in the database.
+	 * @return the list of all users
+	 */
 	public static List<DataAccessUser> getAllUsers() {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -88,6 +128,11 @@ private static EntityManagerFactory FACTORY;
 		return list;
 	}
 	
+	/**
+	 * Returns a list of users which are interested in a given job category. 
+	 * @param tag the job category, for which we want all users
+	 * @return the list of users
+	 */
 	public static List<DataAccessUser> getUsersByTag(DataAccessTag tag) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -98,6 +143,10 @@ private static EntityManagerFactory FACTORY;
 		return list;
 	}
 
+	/**
+	 * Saves or Updates a given news object into the database.
+	 * @param news the news object that is saved or updated
+	 */
 	public static void saveNews(DataAccessNews news) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -106,12 +155,11 @@ private static EntityManagerFactory FACTORY;
 		manager.close();
 	}
 	
-	public static void saveNews(List<DataAccessNews> news) {
-		for (DataAccessNews n : news) {
-			DbHandlerService.saveNews(n);
-		}
-	}
-	
+	/**
+	 * Returns a list of all news with a database id greater than a given id.
+	 * @param id the id for which news are searched
+	 * @return a list of news
+	 */
 	public static List<DataAccessNews> getLatestNews(long id) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -122,6 +170,12 @@ private static EntityManagerFactory FACTORY;
 		return list;
 	}
 	
+	/**
+	 * Returns a given amount of news with a database id that is lower than a given id.
+	 * @param id the id for which news are searched
+	 * @param count the amount of news 
+	 * @return a list of news
+	 */
 	public static List<DataAccessNews> getPreviousNews(long id, long count) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -133,6 +187,10 @@ private static EntityManagerFactory FACTORY;
 		return list;
 	}
 	
+	/**
+	 * Returns a list of all news saved in the database
+	 * @return a list of all news
+	 */
 	public static List<DataAccessNews> getAllNews() {
 		List<DataAccessNews> list = null;
 		EntityManager manager = DbHandlerService.getEntityManager();
@@ -143,8 +201,11 @@ private static EntityManagerFactory FACTORY;
 		return list;
 	}
 
+	/**
+	 * Saves or updates a given event object into the database
+	 * @param event the event object that is saved or updated
+	 */
 	public static void saveEvent(DataAccessEvent event) {
-		event.toString();
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
 		manager.merge(event);
@@ -152,12 +213,25 @@ private static EntityManagerFactory FACTORY;
 		manager.close();
 	}
 	
-	public static void saveEvents(List<DataAccessEvent> events) {
-		for (DataAccessEvent e : events) {
-			DbHandlerService.saveEvent(e);
-		}
+	/**
+	 * Deletes a given event from the database.
+	 * @param the event to delete
+	 */
+	public static void deleteEvent(DataAccessEvent event) {
+		EntityManager manager = DbHandlerService.getEntityManager();
+		manager.getTransaction().begin();
+		Query q = manager.createQuery("DELETE FROM DataAccessEvent WHERE id = :id");
+		q.setParameter("id", event.getId());
+		q.executeUpdate();
+		manager.getTransaction().commit();
+		manager.close();
 	}
 
+	/**
+	 * Returns a list of all events with a database id greater than a given id.
+	 * @param id the id for which events are searched
+	 * @return a list of events
+	 */
 	public static List<DataAccessEvent> getLatestEvents(long id) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -168,6 +242,12 @@ private static EntityManagerFactory FACTORY;
 		return list;
 	}
 
+	/**
+	 * Returns a given amount of events with a database id that is lower than a given id.
+	 * @param id the id for which events are searched
+	 * @param count the amount of events 
+	 * @return a list of events
+	 */
 	public static List<DataAccessEvent> getPreviousEvents(long id, long count) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -179,6 +259,10 @@ private static EntityManagerFactory FACTORY;
 		return list;
 	}
 	
+	/**
+	 * Returns a list of all events saved in the database
+	 * @return a list of all events
+	 */
 	public static List<DataAccessEvent> getAllEvents() {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -188,6 +272,10 @@ private static EntityManagerFactory FACTORY;
 		return list;
 	}
 	
+	/**
+	 * Saves or updates a given job object into the database
+	 * @param event the job object that is saved or updated
+	 */
 	public static void saveJob(DataAccessJob job) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -195,13 +283,12 @@ private static EntityManagerFactory FACTORY;
 		manager.getTransaction().commit();
 		manager.close();
 	}
-	
-	public static void saveJobs(List<DataAccessJob> jobs) {
-		for (DataAccessJob j : jobs) {
-			DbHandlerService.saveJob(j);
-		}
-	}
-	
+
+	/**
+	 * Returns a list of all jobs with a database id greater than a given id.
+	 * @param id the id for which jobs are searched
+	 * @return a list of jobs
+	 */
 	public static List<DataAccessJob> getLatestJobs(long id) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -212,6 +299,12 @@ private static EntityManagerFactory FACTORY;
 		return list;
 	}
 	
+	/**
+	 * Returns a given amount of jobs with a database id that is lower than a given id.
+	 * @param id the id for which jobs are searched
+	 * @param count the amount of jobs 
+	 * @return a list of jobs
+	 */
 	public static List<DataAccessJob> getPreviousJobs(long id, long count) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -223,6 +316,10 @@ private static EntityManagerFactory FACTORY;
 		return list;
 	}
 	
+	/**
+	 * Returns a list of all jobs saved in the database
+	 * @return a list of all jobs
+	 */
 	public static List<DataAccessJob> getAllJobs() {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
@@ -232,7 +329,13 @@ private static EntityManagerFactory FACTORY;
 		return list;
 	}
 	
+	/**
+	 * Returns a list of jobs which fit to a given job category. 
+	 * @param tag the job category, for which we want all jobs
+	 * @return the list of jobs
+	 */
 	public static List<DataAccessJob> getJobsByTag(DataAccessTag tag) {
+		/* REQUIRED???? */
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
 		Query q = manager.createQuery("SELECT j FROM DataAccessJob j JOIN j.tags t WHERE t.name = :name", DataAccessJob.class);
@@ -241,4 +344,5 @@ private static EntityManagerFactory FACTORY;
 		manager.close();
 		return list;
 	}
+	
 }

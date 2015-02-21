@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,14 +12,32 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
-import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 
+/**
+ * Class that parsers events from a specific web page.
+ * @author Maksim Moiseikin
+ *
+ */
 public class EventParser implements Parser<DataAccessEvent> {
 	
+	/**
+	 * Container for parsed events
+	 */
 	private ArrayList<DataAccessEvent> events;
+	
+	/**
+	 * the HTML-Document
+	 */
 	private Document doc = null;
+	
+	/**
+	 * The site url where the events are parsed from
+	 */
 	private static final String SITE_URL = "http://www.intl.kit.edu/iforscher/5980.php/list";
 
+	/* (non-Javadoc)
+	 * @see edu.kit.isco.KitAlumniApp.server.parser.Parser#init()
+	 */
 	public void init() {
 		events = new ArrayList<DataAccessEvent>();
 		try {
@@ -43,6 +60,10 @@ public class EventParser implements Parser<DataAccessEvent> {
 
 
 
+	/**
+	 * This method parses events with their short details and returns a list of all parsed events.
+	 * @return a list of parsed events
+	 */
 	private ArrayList<DataAccessEvent> parseEventsList() {		
 		Element contentDiv = doc.getElementById("content");
 		Element table = contentDiv.select("table").first();
@@ -78,7 +99,11 @@ public class EventParser implements Parser<DataAccessEvent> {
 		
 		return events;
 	}
-
+	
+	/**
+	 * This method parses the full description for every event of a given list of events.
+	 * @param events all previously parsed events
+	 */
 	private void parseEventsDetails(ArrayList<DataAccessEvent> events) {
 		Document eventSite = null;
 		for(DataAccessEvent event : events) {

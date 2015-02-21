@@ -4,13 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessJob;
-import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
-import edu.kit.isco.KitAlumniApp.server.parser.JobParser;
-import edu.kit.isco.KitAlumniApp.server.parser.Parser;
 import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
 import edu.kit.isco.KitAlumniApp.server.gcm.ApiKeyInitializer;
 import edu.kit.isco.KitAlumniApp.server.gcm.Constants;
@@ -18,16 +14,33 @@ import edu.kit.isco.KitAlumniApp.server.gcm.Message;
 import edu.kit.isco.KitAlumniApp.server.gcm.MulticastResult;
 import edu.kit.isco.KitAlumniApp.server.gcm.Result;
 import edu.kit.isco.KitAlumniApp.server.gcm.Sender;
+import edu.kit.isco.KitAlumniApp.server.parser.Parser;
 
+/**
+ * An Updater class that periodically parses job data from a website, checks for new jobs, saves them in the database
+ * and sends out notification to user devices.
+ * @author Alexander Mueller
+ *
+ */
 public class JobUpdater extends AbstractUpdater {
 	
+	/**
+	 * A Sender object with which the notifications are sent
+	 */
 	private Sender sender;
 	
+	/**
+	 * Creates a new JobUpdater with a given parser.
+	 * @param parser the parser that parses the job data
+	 */
 	public JobUpdater(Parser parser)  {
 		super(parser);
 		sender = new Sender(ApiKeyInitializer.getApiKey());
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.kit.isco.KitAlumniApp.server.updater.AbstractUpdater#dataChanged(java.util.List)
+	 */
 	@Override
 	public boolean dataChanged(List<DataAccessObject> list) {
 		List<DataAccessJob> load = DbHandlerService.getAllJobs();
@@ -36,6 +49,9 @@ public class JobUpdater extends AbstractUpdater {
 		return !((DataAccessJob)list.get(0)).equals(load.get(load.size() - 1));
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.isco.KitAlumniApp.server.updater.AbstractUpdater#selectChangedItems(java.util.List)
+	 */
 	@Override
 	public List<DataAccessObject> selectChangedItems(List<DataAccessObject> list) {
 		List<DataAccessJob> load = DbHandlerService.getAllJobs();
@@ -49,6 +65,9 @@ public class JobUpdater extends AbstractUpdater {
 		return list.subList(0, i);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.isco.KitAlumniApp.server.updater.AbstractUpdater#updateDb(java.util.List)
+	 */
 	@Override
 	public boolean updateDb(List<DataAccessObject> items) {
 		for (int i = items.size() - 1; i >= 0; i--) {
@@ -58,10 +77,18 @@ public class JobUpdater extends AbstractUpdater {
 		return true;
 	}
 
+	/**
+	 * Sends a notification to every user device that activated the notification feature, for every job where the user 
+	 * is interested in, with informations about that job.
+	 * @param list the list with all new jobs
+	 */
 	@Override
 	public void sendNotification(final List<DataAccessObject> list) {
 		new Thread(new Runnable() {
 
+			/* (non-Javadoc)
+			 * @see java.lang.Runnable#run()
+			 */
 			@Override
 			public void run() {
 				for (DataAccessObject item : list) {

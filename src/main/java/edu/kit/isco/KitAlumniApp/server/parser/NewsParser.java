@@ -22,15 +22,7 @@ public class NewsParser implements Parser<DataAccessNews> {
 	private Document doc = null;
 	private boolean firstTime = false;
 	
-	
-	/**
-	 * 
-	 */
-	public NewsParser() {
-		super();
-	}
-
-	/**
+	/* (non-Javadoc)
 	 * @see edu.kit.isco.KitAlumniApp.server.parser.Parser#init()
 	 */
 	public void init() {
@@ -44,9 +36,8 @@ public class NewsParser implements Parser<DataAccessNews> {
         }
 	}
 
-	/** 
+	/* (non-Javadoc)
 	 * @see edu.kit.isco.KitAlumniApp.server.parser.Parser#parseContent()
-	 * @return Array with News
 	 */
 	public ArrayList<DataAccessNews> parseContent() {
 		if (firstTime) {

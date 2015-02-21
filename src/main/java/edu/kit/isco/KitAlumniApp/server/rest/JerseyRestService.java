@@ -1,7 +1,6 @@
 package edu.kit.isco.KitAlumniApp.server.rest;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -11,7 +10,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -23,9 +21,24 @@ import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
 import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
 
 
+/**
+ * This class represents the interface for the user devices.
+ * @author Alexander Mueller
+ *
+ */
+/**
+ * @author Moony
+ *
+ */
 @Path("/service")
 public class JerseyRestService {
 	
+	/**
+	 * Represents a HTTP-GET request that returns the latest news. 
+	 * @see edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService#getLatestNews(long)
+	 * @param id the id for which news are searched. If id is not set or id < 0 then the last 30 news will be returned
+	 * @return a list of news
+	 */
 	@GET
 	@Path("/news/latest")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
@@ -41,6 +54,13 @@ public class JerseyRestService {
 		return news;
 	}
 	
+	/**
+	 * Represents a HTTP-GET request that returns an amount of news prior to an id
+	 * @see edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService#getPreviousNews(long, long)
+	 * @param id the id for which news are searched
+	 * @param count the amount of news 
+	 * @return a list of news
+	 */
 	@GET
 	@Path("/news/previous")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
@@ -52,6 +72,12 @@ public class JerseyRestService {
 		return news;
 	}
 	
+	/**
+	 * Represents a HTTP-GET request that returns the latest jobs.
+	 * @see edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService#getLatestJobs(long)
+	 * @param id the id for which jobs are searched. If id is not set or id < 0 then the last 30 jobs will be returned
+	 * @return a list of jobs
+	 */
 	@GET
 	@Path("/jobs/latest")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
@@ -67,6 +93,13 @@ public class JerseyRestService {
 		return jobs;
 	}
 	
+	/**
+	 * Represents a HTTP-GET request that returns an amount of jobs prior to an id
+	 * @see edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService#getPreviousJobs(long, long)
+	 * @param id the id for which jobs are searched
+	 * @param count the amount of jobs 
+	 * @return a list of news
+	 */
 	@GET
 	@Path("/jobs/previous")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
@@ -78,6 +111,10 @@ public class JerseyRestService {
 		return jobs;
 	}
 	
+	/**
+	 * Represents a HTTP-GET request that returns all events in the near future.
+	 * @return a list of events
+	 */
 	@GET
 	@Path("/events")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
@@ -88,13 +125,18 @@ public class JerseyRestService {
 		for (DataAccessEvent e : events) {
 			if (e.getDate().getTimeInMillis() > date.getTimeInMillis() &&
 					e.getDate().getTimeInMillis() < Calendar.getInstance().getTimeInMillis()) {
-				events.remove(e);
+					events.remove(e);
+				DbHandlerService.deleteEvent(e);
 			}
 		}
 		return events;
 	}
 	
 	
+	/**
+	 * Represents a HTTP-POST request that registers a given user.
+	 * @param user the user that is registered
+	 */
 	@POST
 	@Path("/users")
 	@Consumes("application/json")
@@ -102,22 +144,36 @@ public class JerseyRestService {
 		DbHandlerService.saveUser(user);
 	}
 	
+	
+	/**
+	 * Represents a HTTP-PUT requests that updates a given user.
+	 * @param user the user that is updated
+	 */
 	@PUT
 	@Path("/users")
 	@Consumes("application/json")
 	public void updateUser(DataAccessUser user) {
 		DataAccessUser prev = DbHandlerService.getUser(user.getClientId());
-		prev.setClientId(user.getClientId());
-		prev.setPassword(user.getPassword());
-		prev.setTags(user.getTags());
-		DbHandlerService.saveUser(prev);
+		if (prev.getPassword().equals(user.getPassword())) {
+			prev.setClientId(user.getClientId());
+			prev.setPassword(user.getPassword());
+			prev.setTags(user.getTags());
+			DbHandlerService.saveUser(prev);
+		}
 	}
 	
-	 @DELETE
-	 @Path("/users")
-	 @Consumes("application/json")
-	 public void deleteUser(DataAccessUser user) {
-		 DbHandlerService.deleteUser(user.getClientId());
-	 }
+	/**
+	 * Represents a HTTP-DELETE request that unregisters/deletes a given user.
+	 * @param user the user that is unregistered/deleted
+	 */
+	@DELETE
+	@Path("/users")
+	@Consumes("application/json")
+	public void deleteUser(DataAccessUser user) {
+		DataAccessUser prev = DbHandlerService.getUser(user.getClientId());
+		if (prev.getPassword().equals(user.getPassword())) {
+			DbHandlerService.deleteUser(user.getClientId());
+		}
+	}
 	
 }

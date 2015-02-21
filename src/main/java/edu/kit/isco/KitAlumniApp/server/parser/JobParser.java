@@ -3,8 +3,6 @@ package edu.kit.isco.KitAlumniApp.server.parser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -12,7 +10,6 @@ import java.util.regex.Pattern;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -25,15 +22,30 @@ import org.jsoup.nodes.Element;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessJob;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessTag;
 
+/**
+ * @author Moony
+ *
+ */
 public class JobParser implements Parser<DataAccessJob> {
 
-	/* (non-Javadoc)
-	 * @see edu.kit.isco.KitAlumniApp.server.parser.HtmlParser#init()
+	/**
+	 * The site url where the jobs are parsed from
 	 */
 	private String siteUrl = "http://stellen.jobs.kit.edu/cgi-bin/appl/list.pl?action=search";
+	
+	/**
+	 * Container for parsed jobs
+	 */
 	private ArrayList<DataAccessJob> jobList;
+	
+	/**
+	 * the HTML-Document
+	 */
 	private Document doc = null;
 		
+	/* (non-Javadoc)
+	 * @see edu.kit.isco.KitAlumniApp.server.parser.Parser#init()
+	 */
 	public void init() {
 		jobList = new ArrayList<DataAccessJob>();
 		HttpClient client = HttpClientBuilder.create().build();
@@ -95,6 +107,11 @@ public class JobParser implements Parser<DataAccessJob> {
 	}
 	
 	
+	/**
+	 * Converts a given parsed text that represents a job category to its respective tag object.
+	 * @param text the parsed text representation of a job category
+	 * @return the respective tag object
+	 */
 	private DataAccessTag StringToTag(String text) {
 		DataAccessTag tag = null;
 		switch (text) {

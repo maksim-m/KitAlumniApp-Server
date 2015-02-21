@@ -1,17 +1,12 @@
 package edu.kit.isco.KitAlumniApp.server.dbservices;
 
-import java.util.Calendar;
-import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
 import edu.kit.isco.KitAlumniApp.server.parser.EventParser;
 import edu.kit.isco.KitAlumniApp.server.parser.JobParser;
 import edu.kit.isco.KitAlumniApp.server.parser.NewsParser;
@@ -19,13 +14,26 @@ import edu.kit.isco.KitAlumniApp.server.updater.EventUpdater;
 import edu.kit.isco.KitAlumniApp.server.updater.JobUpdater;
 import edu.kit.isco.KitAlumniApp.server.updater.NewsUpdater;
 
+/**
+ * A servlet class that is loaded at server start to initialize different Updaters.
+ * @author Alexander Mueller
+ *
+ */
 public class UpdaterService extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * The periodic timeout between each update
+	 */
 	private static final long UPDATE_TIMEOUT = 20;
 	
+	/**
+	 * A scheduled executor that periodically fires the updaters
+	 */
 	private ScheduledExecutorService executor;	
 	
+	/**
+	 * Executed at server start. Initializes and starts the scheduled executor to execute the updaters.
+	 */
 	public void init(ServletConfig cfg) {
 		executor = Executors.newScheduledThreadPool(3);
 		executor.scheduleAtFixedRate(new JobUpdater(new JobParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
@@ -33,6 +41,9 @@ public class UpdaterService extends HttpServlet {
 		executor.scheduleAtFixedRate(new EventUpdater(new EventParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);	
 	}
 	
+	/**
+	 * Executed at server shutdown. Immediatly stops the executor threads.
+	 */
 	public void destroy() {
 		executor.shutdownNow();
 	}
