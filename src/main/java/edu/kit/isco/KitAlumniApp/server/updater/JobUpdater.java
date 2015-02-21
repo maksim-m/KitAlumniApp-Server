@@ -76,13 +76,11 @@ public class JobUpdater extends AbstractUpdater {
 					if (userRegIds.isEmpty()) {
 						continue;
 					}
-					
 					logger.info("Already in sendNotification");
 					logger.info("List size: " + list.size());
 					
-					for (int i = 0; i < list.size(); i++) {
-						MulticastResult multicastResult = null;
-						Message message = new Message.Builder()
+					MulticastResult multicastResult = null;
+					Message message = new Message.Builder()
 				          .collapseKey("job")
 				          .timeToLive(3)
 				          .delayWhileIdle(true)
@@ -90,16 +88,18 @@ public class JobUpdater extends AbstractUpdater {
 				          .addData("title", job.getTitle())
 				          .addData("url", job.getUrl())
 				          .build(); 
-					    try {
-					    	logger.info("Trying to send notification ...send()");
-							multicastResult = sender.send(message, userRegIds, 5);
-						} catch (IOException e) {
-							logger.info("Error posting messages" + e.toString());
-							e.printStackTrace();
-						}
-					    List<Result> results = multicastResult.getResults();
-				        // analyze the results
-				        for (int l = 0; l < userRegIds.size(); l++) {
+					try {
+					    logger.info("Trying to send notification ...send()");
+					    System.out.println(message.toString());
+					    System.out.println(userRegIds.size());
+						multicastResult = sender.send(message, userRegIds, 5);
+					} catch (IOException e) {
+						logger.info("Error posting messages" + e.toString());
+						e.printStackTrace();
+					}
+					List<Result> results = multicastResult.getResults();
+				    // analyze the results
+				    for (int l = 0; l < userRegIds.size(); l++) {
 				          String regId = userRegIds.get(l);
 				          Result result = results.get(l);
 				          String messageId = result.getMessageId();
@@ -130,7 +130,7 @@ public class JobUpdater extends AbstractUpdater {
 				        }
 					
 					}
-				}
+				
 				
 			}
 			

@@ -23,8 +23,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessJob;
-import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
-import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessTag;
 
 public class JobParser implements Parser<DataAccessJob> {
