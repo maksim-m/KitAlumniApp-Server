@@ -100,7 +100,7 @@ public class JobParser implements Parser<DataAccessJob> {
 					result.append(line);
 				}
 				in.close();
-				job = new DataAccessJob(tags, title, shortInfo, result.toString(), url.getPath(), null);
+				job = new DataAccessJob(tags, title, shortInfo, result.toString(), url.toString(), null);
 				jobList.add(job);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
