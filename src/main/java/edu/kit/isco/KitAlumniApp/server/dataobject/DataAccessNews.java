@@ -40,12 +40,6 @@ public class DataAccessNews {
 	 */
 	@Column(name = "short_info", length = 500)
 	private String shortInfo;
-	
-	/**
-	 * The full description of a news
-	 */
-	@Column(name = "all_text", length = 10000)
-	private String allText;
 
 	/**
 	 * The link of a news, where it was posted
@@ -80,10 +74,9 @@ public class DataAccessNews {
 	 * @param imageUrl the news image link
 	 * @param date the news date
 	 */
-	public DataAccessNews(String title, String shortInfo, String allText, String url, String imageUrl, Calendar date) {
+	public DataAccessNews(String title, String shortInfo, String url, String imageUrl, Calendar date) {
 		this.title = title;
 		this.shortInfo = shortInfo;
-		this.allText = allText;
 		this.url = url;
 		this.imageUrl = imageUrl;
 		this.date = date;
@@ -105,12 +98,6 @@ public class DataAccessNews {
 	 * @return the news short description
 	 */
 	public String getShortInfo() {return shortInfo;}
-	
-	/**
-	 * Returns the news full description
-	 * @return the news full description
-	 */
-	public String getAllText() {return allText;}
 	
 	/**
 	 * Returns the news link
@@ -149,12 +136,6 @@ public class DataAccessNews {
 	public void setShortInfo(String shortInfo) {this.shortInfo = shortInfo;}
 	
 	/**
-	 * Sets the news full description
-	 * @param allText the new full description
-	 */
-	public void setAllText(String allText) {this.allText = allText;}
-	
-	/**
 	 * Sets the news url
 	 * @param url the new url
 	 */
@@ -180,7 +161,6 @@ public class DataAccessNews {
 		return new StringBuffer("ID : ").append(this.Id)
 						.append(" Title : ").append(this.title)
 						.append(" Short Info : ").append(this.shortInfo)
-						.append(" All Text : ").append(this.allText)
 						.append(" URL : ").append(this.url)
 						.append(" Image Url : ").append(this.imageUrl)
 						.append(" Date : ").append(this.date.toString())
@@ -207,13 +187,6 @@ public class DataAccessNews {
 				return false;
 			}
 		} else if (!shortInfo.equals(other.shortInfo)) {
-			return false;
-		}
-		if (allText == null) {
-			if (other.allText != null) {
-				return false;
-			}
-		} else if (!allText.equals(other.allText)) {
 			return false;
 		}
 		if (imageUrl == null) {

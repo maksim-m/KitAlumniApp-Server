@@ -163,4 +163,123 @@ public class DataAccessTag implements DataAccessObject {
 		return prime * result + ((name == null) ? 0 : name.hashCode());
 	}
 	
+	/**
+	 * Returns a predefined tag object by a given name.
+	 * @param name the name of a job category
+	 * @return the respective tag object
+	 */
+	public static DataAccessTag getTagByName(String name) {
+		DataAccessTag tag = null;
+		switch (name) {
+			case "Graduand":
+				tag = DataAccessTag.GRADUAND;
+				break;
+			case "Employe in Data Administration":
+				tag = DataAccessTag.DATA_ADMINISTRATION;
+				break;
+			case "Trainee":
+				tag = DataAccessTag.TRAINEE;
+				break;
+			case "Clerk":
+				tag = DataAccessTag.CLERK;
+				break;
+			case "Doctorand":
+				tag = DataAccessTag.DOCTORAND;
+				break;
+			case "FH/BA Engineer":
+				tag = DataAccessTag.ENGINEER;
+				break;
+			case "Industrial Job":
+				tag = DataAccessTag.INDUSTRIAL;
+				break;
+			case "Sales Occupation":
+				tag = DataAccessTag.SALES_OCCUPATION;
+				break;
+			case "Threshold Worker":
+				tag = DataAccessTag.THRESHOLD_WORKER;
+				break;
+			case "Professor":
+				tag = DataAccessTag.PROFESSOR;
+				break;
+			case "Student Research Project":
+				tag = DataAccessTag.STUDENT_RESEARCH_PROJECT;
+				break;
+			case "Technical Employee":
+				tag = DataAccessTag.TECHNICAL_EMPLOYEE;
+				break;
+			case "Administration":
+				tag = DataAccessTag.ADMINISTRATION;
+				break;
+			case "Scientist":
+				tag = DataAccessTag.SCIENTIST;
+				break;
+			default:
+				tag = DataAccessTag.OTHERS;
+				break;
+		}
+		
+		return tag;
+	}
+	
+	/**
+	 * Converts a given parsed text that represents a job category to its respective tag object.
+	 * @param text the parsed text representation of a job category
+	 * @return the respective tag object
+	 */
+	public static DataAccessTag StringToTag(String text) {
+		DataAccessTag tag = null;
+		switch (text) {
+			case "Diplomanden/innen":
+				tag = DataAccessTag.GRADUAND;
+				break;
+			case "Angestellte in der Datenverarbeitung":
+				tag = DataAccessTag.DATA_ADMINISTRATION;
+				break;
+			case "Angestellte in der Datenverarbeitung (m/w)":
+				tag = DataAccessTag.DATA_ADMINISTRATION;
+				break;
+			case "Auszubildende":
+				tag = DataAccessTag.TRAINEE;
+				break;
+			case "Beamter/in (A13/A14/A15)":
+				tag = DataAccessTag.CLERK;
+				break;
+			case "Doktoranden/innen":
+				tag = DataAccessTag.DOCTORAND;
+				break;
+			case "FH/BA-Ingenieure/innen":
+				tag = DataAccessTag.ENGINEER;
+				break;
+			case "Gewerbliche Mitarbeiter/innen":
+				tag = DataAccessTag.INDUSTRIAL;
+				break;
+			case "Kaufm&#228;nnische Mitarbeiter/innen":
+				tag = DataAccessTag.SALES_OCCUPATION;
+				break;
+			case "Praktikanten/innen":
+				tag = DataAccessTag.THRESHOLD_WORKER;
+				break;
+			case "Professoren/innen (W3/W2/W1)":
+				tag = DataAccessTag.PROFESSOR;
+				break;
+			case "Studienarbeiten":
+				tag = DataAccessTag.STUDENT_RESEARCH_PROJECT;
+				break;
+			case "Technische Mitarbeiter/innen":
+				tag = DataAccessTag.TECHNICAL_EMPLOYEE;
+				break;
+			case "Verwaltung":
+				tag = DataAccessTag.ADMINISTRATION;
+				break;
+			case "Wissenschaftler/Ingenieure/innen (Uni/TH/TU)":
+				tag = DataAccessTag.SCIENTIST;
+				break;
+			default:
+				tag = DataAccessTag.OTHERS;
+				break;
+		}
+		
+		return tag;
+	}
+	
 }

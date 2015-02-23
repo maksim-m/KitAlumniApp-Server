@@ -13,14 +13,11 @@ public class NewsParserTest {
         
         int counter = 0;
         for (DataAccessNews n : news) {
-        	if (n.getAllText() != null) {
-        		counter++;
-        	}
+        	counter++;
             System.out.println("Title: " + n.getTitle());
             System.out.println("Short Description: " + n.getShortInfo());
             System.out.println("URL: " + n.getUrl());
             System.out.println("Image URL: " + n.getImageUrl());
-            System.out.println(n.getAllText());
             System.out.println("-----");
             System.out.println("-----");
             System.out.println("-----");

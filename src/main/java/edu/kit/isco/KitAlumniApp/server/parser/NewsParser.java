@@ -18,15 +18,15 @@ public class NewsParser implements Parser<DataAccessNews> {
 	
 	private static String kitNewsSitePattern = "^(https?)://www.kit.edu/.*\\d.*.php";
 	private String siteUrl;
-	private ArrayList<DataAccessNews> newsList;
+	private ArrayList<DataAccessNews> newsList = new ArrayList<DataAccessNews>();
 	private Document doc = null;
-	private boolean firstTime = false;
-	
+	private boolean firstTime = true;
+
 	/* (non-Javadoc)
 	 * @see edu.kit.isco.KitAlumniApp.server.parser.Parser#init()
 	 */
 	public void init() {
-		newsList = new ArrayList<DataAccessNews>();
+		newsList .clear();
 		// TODO Parse URL to news site
 		siteUrl = "http://www.kit.edu/kit/english/news_" + Integer.toString(Calendar.getInstance().get(Calendar.YEAR)) + ".php";
 		try {
@@ -93,7 +93,7 @@ public class NewsParser implements Parser<DataAccessNews> {
 	            } else {
 	                text = td.text();
 	            }
-	            DataAccessNews news = new DataAccessNews(title, text, "", link, "", date);
+	            DataAccessNews news = new DataAccessNews(title, text, link, "", date);
 	            
 	            // image
 	            Element image = td.select("img[src]").first();
@@ -106,7 +106,6 @@ public class NewsParser implements Parser<DataAccessNews> {
             	
 	        }
 	    }
-		parseNewsDetail(newsList);
         return newsList;
 	}
 
@@ -115,33 +114,4 @@ public class NewsParser implements Parser<DataAccessNews> {
 		c.set(Integer.parseInt(date.substring(7, 11)), Integer.parseInt(date.substring(4, 6)) - 1, Integer.parseInt(date.substring(1, 3)));
 		return c;
 	}
-	
-	private void parseNewsDetail(ArrayList<DataAccessNews> news) {
-		Document newsSite = null;
-		for(DataAccessNews n : news) {
-			
-			if (!n.getUrl().matches(kitNewsSitePattern)) {
-				n.setAllText(null);
-				continue;
-			}			
-			
-			try {
-				newsSite = Jsoup.connect(n.getUrl()).get();
-	        } catch (IOException e) {
-	            // TODO Throws exception
-	        	continue;
-	        }
-			StringBuilder htmlText = new StringBuilder();
-			htmlText.append("<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">");
-			htmlText.append("<title>");
-			htmlText.append(n.getTitle());
-			htmlText.append("</title></head><body>");
-			Element contentDiv = newsSite.getElementById("content");
-			htmlText.append(contentDiv.html());
-			htmlText.append("</body></html>");
-			n.setAllText(htmlText.toString());
-		}
-	}
-	
-
 }

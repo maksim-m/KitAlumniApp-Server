@@ -92,7 +92,7 @@ public class JobParser implements Parser<DataAccessJob> {
 			String href = a.attr("href");
 			td = e.select("td").get(3);
 			ArrayList<DataAccessTag> tags = new ArrayList<DataAccessTag>();
-			tags.add(StringToTag(td.text()));
+			tags.add(DataAccessTag.StringToTag(td.text()));
 			
 			Pattern pa = Pattern.compile("/cgi-bin/appl/list.pl[^\']*");
 			Matcher ma = pa.matcher(href);
@@ -105,69 +105,5 @@ public class JobParser implements Parser<DataAccessJob> {
 		}
 		return jobList;
 	}
-	
-	
-	/**
-	 * Converts a given parsed text that represents a job category to its respective tag object.
-	 * @param text the parsed text representation of a job category
-	 * @return the respective tag object
-	 */
-	private DataAccessTag StringToTag(String text) {
-		DataAccessTag tag = null;
-		switch (text) {
-			case "Diplomanden/innen":
-				tag = DataAccessTag.GRADUAND;
-				break;
-			case "Angestellte in der Datenverarbeitung":
-				tag = DataAccessTag.DATA_ADMINISTRATION;
-				break;
-			case "Angestellte in der Datenverarbeitung (m/w)":
-				tag = DataAccessTag.DATA_ADMINISTRATION;
-				break;
-			case "Auszubildende":
-				tag = DataAccessTag.TRAINEE;
-				break;
-			case "Beamter/in (A13/A14/A15)":
-				tag = DataAccessTag.CLERK;
-				break;
-			case "Doktoranden/innen":
-				tag = DataAccessTag.DOCTORAND;
-				break;
-			case "FH/BA-Ingenieure/innen":
-				tag = DataAccessTag.ENGINEER;
-				break;
-			case "Gewerbliche Mitarbeiter/innen":
-				tag = DataAccessTag.INDUSTRIAL;
-				break;
-			case "Kaufm&#228;nnische Mitarbeiter/innen":
-				tag = DataAccessTag.SALES_OCCUPATION;
-				break;
-			case "Praktikanten/innen":
-				tag = DataAccessTag.THRESHOLD_WORKER;
-				break;
-			case "Professoren/innen (W3/W2/W1)":
-				tag = DataAccessTag.PROFESSOR;
-				break;
-			case "Studienarbeiten":
-				tag = DataAccessTag.STUDENT_RESEARCH_PROJECT;
-				break;
-			case "Technische Mitarbeiter/innen":
-				tag = DataAccessTag.TECHNICAL_EMPLOYEE;
-				break;
-			case "Verwaltung":
-				tag = DataAccessTag.ADMINISTRATION;
-				break;
-			case "Wissenschaftler/Ingenieure/innen (Uni/TH/TU)":
-				tag = DataAccessTag.SCIENTIST;
-				break;
-			default:
-				tag = DataAccessTag.OTHERS;
-				break;
-		}
-		
-		return tag;
-	}
-
-	
 
 }

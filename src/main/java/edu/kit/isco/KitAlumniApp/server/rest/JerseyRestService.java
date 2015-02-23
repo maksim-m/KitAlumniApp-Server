@@ -1,5 +1,6 @@
 package edu.kit.isco.KitAlumniApp.server.rest;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessJob;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessTag;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
 import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
 
@@ -141,7 +143,11 @@ public class JerseyRestService {
 	@Path("/users")
 	@Consumes("application/json")
 	public void registerUser(DataAccessUser user) {
-		DbHandlerService.saveUser(user);
+		ArrayList<DataAccessTag> list = new ArrayList<DataAccessTag>();
+		for (DataAccessTag t : user.getTags()) {
+			list.add(DataAccessTag.getTagByName(t.getName()));
+		}
+		DbHandlerService.saveUser(new DataAccessUser(user.getClientId(), list, user.getPassword()));
 	}
 	
 	
@@ -157,7 +163,11 @@ public class JerseyRestService {
 		if (prev.getPassword().equals(user.getPassword())) {
 			prev.setClientId(user.getClientId());
 			prev.setPassword(user.getPassword());
-			prev.setTags(user.getTags());
+			ArrayList<DataAccessTag> list = new ArrayList<DataAccessTag>();
+			for (DataAccessTag t : user.getTags()) {
+				list.add(DataAccessTag.getTagByName(t.getName()));
+			}
+			prev.setTags(list);
 			DbHandlerService.saveUser(prev);
 		}
 	}

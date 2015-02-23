@@ -51,14 +51,4 @@
     <servlet-name>kit-alumni-app-server</servlet-name>
     <url-pattern>/rest/*</url-pattern>
 </servlet-mapping>
-
-<servlet>
-	<servlet-name>updater-service</servlet-name>
-	<servlet-class>edu.kit.isco.KitAlumniApp.server.dbservices.UpdaterService</servlet-class>
-	<load-on-startup>1</load-on-startup>
-</servlet>
-<servlet-mapping>
-	<servlet-name>updater-service</servlet-name>
-	<url-pattern>/updater/*</url-pattern>
-</servlet-mapping>
 </web-app>
