@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 
 /**
  * A class that represents the job categories
@@ -17,13 +19,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @Entity
 @Table(name = "tag")
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class DataAccessTag implements DataAccessObject {
 	
 	
 	/**
-	 * A tag object that represents the 'Employe in Data Administration' Category
+	 * A tag object that represents the 'Employee in Data Administration' Category
 	 */
-	public static final DataAccessTag DATA_ADMINISTRATION    	= new DataAccessTag("Employe in Data Administration");
+	public static final DataAccessTag DATA_ADMINISTRATION    	= new DataAccessTag("Employee in Data Administration");
 	
 	/**
 	 * A tag object that represents the 'Trainee' Category
@@ -174,7 +177,7 @@ public class DataAccessTag implements DataAccessObject {
 			case "Graduand":
 				tag = DataAccessTag.GRADUAND;
 				break;
-			case "Employe in Data Administration":
+			case "Employee in Data Administration":
 				tag = DataAccessTag.DATA_ADMINISTRATION;
 				break;
 			case "Trainee":

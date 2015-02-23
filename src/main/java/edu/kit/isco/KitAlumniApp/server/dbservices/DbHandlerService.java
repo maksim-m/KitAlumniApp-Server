@@ -48,6 +48,7 @@ private static EntityManagerFactory FACTORY;
 		manager.persist(DataAccessTag.CLERK);
 		manager.persist(DataAccessTag.GRADUAND);
 		manager.persist(DataAccessTag.DOCTORAND);
+		manager.persist(DataAccessTag.ENGINEER);
 		manager.persist(DataAccessTag.INDUSTRIAL);
 		manager.persist(DataAccessTag.SALES_OCCUPATION);
 		manager.persist(DataAccessTag.THRESHOLD_WORKER);
