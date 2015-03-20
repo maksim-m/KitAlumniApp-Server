@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessJob;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
@@ -46,7 +47,14 @@ public class JobUpdater extends AbstractUpdater {
 		List<DataAccessJob> load = DbHandlerService.getAllJobs();
 		if (load.isEmpty()) 
 			return true;
-		return !((DataAccessJob)list.get(0)).equals(load.get(load.size() - 1));
+		if (list.size() > load.size())
+			return true;
+		for (int i = 0; i < list.size(); i++) {
+			if (!load.contains((DataAccessJob) list.get(i))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/* (non-Javadoc)
@@ -55,14 +63,15 @@ public class JobUpdater extends AbstractUpdater {
 	@Override
 	public List<DataAccessObject> selectChangedItems(List<DataAccessObject> list) {
 		List<DataAccessJob> load = DbHandlerService.getAllJobs();
+		List<DataAccessObject> changed = new ArrayList<DataAccessObject>();
 		if (load.isEmpty())
 			return list;
 		DataAccessJob last = load.get(load.size() - 1);
-		int i = 0;
-		while (i < list.size() && !last.equals(list.get(i))) {
-			i++;
+		for (int i = 0; i < list.size(); i++) {
+			if (!load.contains((DataAccessJob) list.get(i)))
+				changed.add(list.get(i));
 		}
-		return list.subList(0, i);
+		return changed;
 	}
 
 	/* (non-Javadoc)

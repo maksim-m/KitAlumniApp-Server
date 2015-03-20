@@ -1,5 +1,6 @@
 package edu.kit.isco.KitAlumniApp.server.updater;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
@@ -30,7 +31,14 @@ public class EventUpdater extends AbstractUpdater {
 		List<DataAccessEvent> load = DbHandlerService.getAllEvents();
 		if (load.isEmpty()) 
 			return true;
-		return !((DataAccessEvent)list.get(0)).equals(load.get(load.size() - 1));
+		if (list.size() > load.size())
+			return true;
+		for (int i = 0; i < list.size(); i++) {
+			if (!load.contains((DataAccessEvent) list.get(i))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/* (non-Javadoc)
@@ -39,15 +47,15 @@ public class EventUpdater extends AbstractUpdater {
 	@Override
 	public List<DataAccessObject> selectChangedItems(List<DataAccessObject> list) {
 		List<DataAccessEvent> load = DbHandlerService.getAllEvents();
+		List<DataAccessObject> changed = new ArrayList<DataAccessObject>();
 		if (load.isEmpty())
 			return list;
 		DataAccessEvent last = load.get(load.size() - 1);
-		int i = 0;
-		while (i < list.size() && !last.equals(list.get(i))) {
-			i++;
+		for (int i = 0; i < list.size(); i++) {
+			if (!load.contains((DataAccessEvent) list.get(i)))
+				changed.add(list.get(i));
 		}
-		
-		return list.subList(0, i);
+		return changed;
 	}
 
 	/* (non-Javadoc)
@@ -56,8 +64,8 @@ public class EventUpdater extends AbstractUpdater {
 	@Override
 	public boolean updateDb(List<DataAccessObject> items) {
 		while (!items.isEmpty()) {
-			DataAccessEvent news = (DataAccessEvent) items.remove(items.size() - 1);
-			DbHandlerService.saveEvent(news);
+			DataAccessEvent event = (DataAccessEvent) items.remove(items.size() - 1);
+			DbHandlerService.saveEvent(event);
 		}
 		return true;
 	}
