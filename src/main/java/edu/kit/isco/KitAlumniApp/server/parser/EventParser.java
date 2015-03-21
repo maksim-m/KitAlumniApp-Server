@@ -137,7 +137,8 @@ public class EventParser implements Parser<DataAccessEvent> {
 			Element contentDiv = eventSite.getElementById("content");
 			Element table = contentDiv.select("table").first();
 			table = table.select("tbody").first();
-			htmlText.append(table.html());
+			if (table!=null)
+				htmlText.append(table.html());
 			htmlText.append("</body></html>");
 			event.setAllText(htmlText.toString());
 		}

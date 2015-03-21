@@ -202,7 +202,7 @@ private static EntityManagerFactory FACTORY = Persistence.createEntityManagerFac
 	public static List<DataAccessNews> getPreviousNews(long id, long count) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		Query q = manager.createQuery("FROM DataAccessNews WHERE Id < :id1 AND Id > :id2 ORDER BY date", DataAccessNews.class);
+		Query q = manager.createQuery("FROM DataAccessNews WHERE Id < :id1 AND Id >= :id2 ORDER BY date", DataAccessNews.class);
 		q.setParameter("id1", id);
 		q.setParameter("id2", id - count);
 		List<DataAccessNews> list = (List<DataAccessNews>) q.getResultList();
@@ -351,21 +351,4 @@ private static EntityManagerFactory FACTORY = Persistence.createEntityManagerFac
 		manager.close();
 		return list;
 	}
-	
-	/**
-	 * Returns a list of jobs which fit to a given job category. 
-	 * @param tag the job category, for which we want all jobs
-	 * @return the list of jobs
-	 */
-	public static List<DataAccessJob> getJobsByTag(DataAccessTag tag) {
-		/* REQUIRED???? */
-		EntityManager manager = DbHandlerService.getEntityManager();
-		manager.getTransaction().begin();
-		Query q = manager.createQuery("SELECT j FROM DataAccessJob j JOIN j.tags t WHERE t.name = :name", DataAccessJob.class);
-		q.setParameter("name", tag.getName());
-		List<DataAccessJob> list = (List<DataAccessJob>) q.getResultList();
-		manager.close();
-		return list;
-	}
-	
 }
