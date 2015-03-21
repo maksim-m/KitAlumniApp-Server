@@ -21,6 +21,7 @@ import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessTag;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
 
 public class DbHandlerServiceTest {
+	/*
 	
 	public static DataAccessTag[][] 	tags_list   = new DataAccessTag[10][];
 	public static DataAccessUser[] 		user		= new DataAccessUser[10];
@@ -232,5 +233,6 @@ public class DbHandlerServiceTest {
 	@Test
 	public void testGetJobsByTag() {
 	}
+	/**/
 
 }

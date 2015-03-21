@@ -7,6 +7,9 @@
       edu.kit.isco.KitAlumniApp.server.gcm.ApiKeyInitializer
     </listener-class>
   </listener> 
+  <listener>
+    <listener-class>edu.kit.isco.KitAlumniApp.server.dbservices.UpdaterService</listener-class>
+  </listener>
   
   <servlet>
     <servlet-name>SendAllMessagesServlet</servlet-name>
