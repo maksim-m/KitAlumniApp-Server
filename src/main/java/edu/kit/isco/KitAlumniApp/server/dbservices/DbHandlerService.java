@@ -22,23 +22,21 @@ import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
  *
  */
 @WebListener 
-public class DbHandlerService implements ServletContextListener{
+public class DbHandlerService {
 	
 private static EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("KitAlumniAppPersistenceUnit");;
 	
 	/**
 	 * Executed at server shutdown. Closes all connectivites to the database.
 	 */
-	@Override
-	public void contextDestroyed(ServletContextEvent arg0) {
+	public static void close() {
 		FACTORY.close();		
 	}
 
 	/**
 	 * Executed at server start. Initializes the database connectivity and saves the predefined job categories.
 	 */
-	@Override
-	public void contextInitialized(ServletContextEvent arg0) {
+	static {
 		EntityManager manager = FACTORY.createEntityManager();
 		manager.getTransaction().begin();
 		List<DataAccessTag> tags = manager.createQuery("FROM DataAccessTag", DataAccessTag.class).getResultList();
@@ -260,7 +258,7 @@ private static EntityManagerFactory FACTORY = Persistence.createEntityManagerFac
 	public static List<DataAccessEvent> getLatestEvents(long id) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		Query q = manager.createQuery("FROM DataAccessEvent WHERE Id > :id ORDER BY date", DataAccessEvent.class);
+		Query q = manager.createQuery("FROM DataAccessEvent WHERE Id > :id ORDER BY date DESC", DataAccessEvent.class);
 		q.setParameter("id", id);
 		List<DataAccessEvent> list = (List<DataAccessEvent>) q.getResultList();
 		manager.close();
@@ -276,7 +274,7 @@ private static EntityManagerFactory FACTORY = Persistence.createEntityManagerFac
 	public static List<DataAccessEvent> getPreviousEvents(long id, long count) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		Query q = manager.createQuery("FROM DataAccessEvent WHERE Id < :id1 AND Id > :id2 ORDER BY date", DataAccessEvent.class);
+		Query q = manager.createQuery("FROM DataAccessEvent WHERE Id < :id1 AND Id > :id2 ORDER BY date DESC", DataAccessEvent.class);
 		q.setParameter("id1", id);
 		q.setParameter("id2", id - count);
 		List<DataAccessEvent> list = (List<DataAccessEvent>) q.getResultList();
@@ -291,7 +289,7 @@ private static EntityManagerFactory FACTORY = Persistence.createEntityManagerFac
 	public static List<DataAccessEvent> getAllEvents() {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		Query q = manager.createQuery("FROM DataAccessEvent ORDER BY date", DataAccessEvent.class);
+		Query q = manager.createQuery("FROM DataAccessEvent ORDER BY date DESC", DataAccessEvent.class);
 		List<DataAccessEvent> list = (List<DataAccessEvent>) q.getResultList();
 		manager.close();
 		return list;

@@ -2,19 +2,17 @@ package edu.kit.isco.KitAlumniApp.server.parser;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-public class EventParserTest {
+public class JobParserTest {
 	
-	EventParser parser;
-
+	JobParser parser;
+	
 	@Before
 	public void setUp() throws Exception {
-		parser = new EventParser();
+		parser = new JobParser();
 		parser.init();
 	}
 
@@ -22,12 +20,10 @@ public class EventParserTest {
 	public void testInit() {
 		parser.init();
 	}
-	
+
 	@Test
 	public void testParseContent() {
-		
 		Assert.assertNotNull(parser.parseContent());
 	}
-	
 
 }

@@ -1,29 +1,29 @@
 package edu.kit.isco.KitAlumniApp.server.parser;
 
-import java.util.ArrayList;
+import static org.junit.Assert.*;
 
-import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 public class NewsParserTest {
-	public static void main(String args[]) {
-        Parser<DataAccessNews> kitNewsParser = new NewsParser();
-        kitNewsParser.init();
-        
-        ArrayList<DataAccessNews> news = kitNewsParser.parseContent();
-        
-        int counter = 0;
-        for (DataAccessNews n : news) {
-        	counter++;
-            System.out.println("Title: " + n.getTitle());
-            System.out.println("Short Description: " + n.getShortInfo());
-            System.out.println("URL: " + n.getUrl());
-            System.out.println("Image URL: " + n.getImageUrl());
-            System.out.println("-----");
-            System.out.println("-----");
-            System.out.println("-----");
-        }
+	
+	NewsParser parser;
 
-        System.out.println("\nTotal: " + news.size() + " news.");
-        System.out.println(counter);
-    }
+	@Before
+	public void setUp() throws Exception {
+		parser = new NewsParser();
+		parser.init();
+	}
+
+	@Test
+	public void testInit() {
+		parser.init();
+	}
+
+	@Test
+	public void testParseContent() {
+		Assert.assertNotNull(parser.parseContent());
+	}
+
 }

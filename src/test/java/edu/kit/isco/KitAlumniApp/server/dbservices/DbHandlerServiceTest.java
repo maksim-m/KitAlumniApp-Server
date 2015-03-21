@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.servlet.ServletContextListener;
 
 import junit.framework.Assert;
 
@@ -21,17 +22,14 @@ import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
 
 public class DbHandlerServiceTest {
 	
-	public DataAccessTag[][] 	tags_list   = new DataAccessTag[10][];
-	public DataAccessUser[] 	user		= new DataAccessUser[10];
-	public DataAccessEvent[] 	event 		= new DataAccessEvent[10];
-	public DataAccessNews[] 	news 		= new DataAccessNews[10];
-	public DataAccessJob[] 		job 		= new DataAccessJob[10];
-	public DbHandlerService     service     = new DbHandlerService();
+	public static DataAccessTag[][] 	tags_list   = new DataAccessTag[10][];
+	public static DataAccessUser[] 		user		= new DataAccessUser[10];
+	public static DataAccessEvent[] 	event 		= new DataAccessEvent[10];
+	public static DataAccessNews[] 		news 		= new DataAccessNews[10];
+	public static DataAccessJob[] 		job 		= new DataAccessJob[10];
+	public static DbHandlerService     	service     = new DbHandlerService();
 	
-	@Before
-	public void setUp() throws Exception {
-		service.contextInitialized(null);
-	
+	static {
 		tags_list[0] = new DataAccessTag[]{DataAccessTag.ADMINISTRATION, DataAccessTag.DATA_ADMINISTRATION, DataAccessTag.THRESHOLD_WORKER};
 		tags_list[1] = new DataAccessTag[]{DataAccessTag.CLERK, DataAccessTag.OTHERS, DataAccessTag.SALES_OCCUPATION, DataAccessTag.TECHNICAL_EMPLOYEE};
 		tags_list[2] = new DataAccessTag[]{DataAccessTag.SCIENTIST, DataAccessTag.PROFESSOR, DataAccessTag.GRADUAND};
@@ -90,42 +88,35 @@ public class DbHandlerServiceTest {
 
 	@Test
 	public void testSaveUser() {
-		EntityManager em = DbHandlerService.getEntityManager();
-		em.getTransaction().begin();
-		em.createQuery("DELETE FROM DataAccessUser").executeUpdate();
-		em.getTransaction().commit();
-		em.close();
-		DbHandlerService.saveUser(user[0]);
-		DbHandlerService.saveUser(user[1]);
-		DbHandlerService.saveUser(user[2]);
-		DbHandlerService.saveUser(user[3]);
-		DbHandlerService.saveUser(user[4]);
-		DbHandlerService.saveUser(user[5]);
-		DbHandlerService.saveUser(user[6]);
-		DbHandlerService.saveUser(user[7]);
-		DbHandlerService.saveUser(user[8]);
-		DbHandlerService.saveUser(user[9]);
-		Assert.assertEquals(true, DbHandlerService.getAllUsers().size() == user.length);
-		
+		service.saveUser(user[0]);
+		service.saveUser(user[1]);
+		service.saveUser(user[2]);
+		service.saveUser(user[3]);
+		service.saveUser(user[4]);
+		service.saveUser(user[5]);
+		service.saveUser(user[6]);
+		service.saveUser(user[7]);
+		service.saveUser(user[8]);
+		service.saveUser(user[9]);
+		Assert.assertEquals(true, service.getAllUsers().size() == user.length);
 		user[0].setClientId("f39apb3lad210gek55kj3%3");
 		user[3].setPassword("new_password_4");
-		DbHandlerService.saveUser(user[0]);
-		DbHandlerService.saveUser(user[3]);
-		Assert.assertEquals(true, DbHandlerService.getAllUsers().size() == user.length);
+		service.saveUser(user[0]);
+		service.saveUser(user[3]);
+		Assert.assertEquals(true, service.getAllUsers().size() == user.length);
 	}
 
 	@Test
 	public void testDeleteUser() {
-		DbHandlerService.deleteUser(user[1].getClientId());
-		DbHandlerService.deleteUser(user[4].getClientId());
-		DbHandlerService.deleteUser(user[9].getClientId());
-		Assert.assertEquals(7, DbHandlerService.getAllUsers().size());
+		service.deleteUser(user[1].getClientId());
+		service.deleteUser(user[4].getClientId());
+		service.deleteUser(user[9].getClientId());
+		Assert.assertEquals(7, service.getAllUsers().size());
 		
 	}
 
 	@Test
 	public void testGetUser() {
-		testSaveUser();
 		Assert.assertEquals(true, user[0].equals(DbHandlerService.getUser(user[0].getClientId())));
 		Assert.assertEquals(true, user[2].equals(DbHandlerService.getUser(user[2].getClientId())));
 		Assert.assertEquals(true, user[3].equals(DbHandlerService.getUser(user[3].getClientId())));
@@ -137,8 +128,7 @@ public class DbHandlerServiceTest {
 
 	@Test
 	public void testGetAllUsers() {
-		testSaveUser();
-		List<DataAccessUser> users = DbHandlerService.getAllUsers();
+		List<DataAccessUser> users = service.getAllUsers();
 		
 		Assert.assertEquals(user[0].getClientId(), users.get(0).getClientId());
 		Assert.assertEquals(user[1].getClientId(), users.get(1).getClientId());
@@ -154,13 +144,12 @@ public class DbHandlerServiceTest {
 
 	@Test
 	public void testGetUsersByTag() {
-		testSaveUser();
-		List<DataAccessUser> users = DbHandlerService.getUsersByTag(DataAccessTag.DATA_ADMINISTRATION);
+		List<DataAccessUser> users = service.getUsersByTag(DataAccessTag.DATA_ADMINISTRATION);
 		Assert.assertEquals(2, users.size());
 		Assert.assertEquals(user[1].getClientId(), users.get(0).getClientId());
 		Assert.assertEquals(user[4].getClientId(), users.get(1).getClientId());
 		
-		users = DbHandlerService.getUsersByTag(DataAccessTag.TECHNICAL_EMPLOYEE);
+		users = service.getUsersByTag(DataAccessTag.TECHNICAL_EMPLOYEE);
 		Assert.assertEquals(3, users.size());
 		Assert.assertEquals(user[2].getClientId(), users.get(0).getClientId());
 		Assert.assertEquals(user[5].getClientId(), users.get(1).getClientId());
@@ -169,10 +158,31 @@ public class DbHandlerServiceTest {
 
 	@Test
 	public void testSaveNews() {
+		service.saveNews(news[0]);
+		service.saveNews(news[1]);
+		service.saveNews(news[2]);
+		service.saveNews(news[3]);
+		service.saveNews(news[4]);
+		service.saveNews(news[5]);
+		service.saveNews(news[6]);
+		service.saveNews(news[7]);
+		service.saveNews(news[8]);
+		service.saveNews(news[9]);
+		Assert.assertEquals(true, DbHandlerService.getAllNews().size() == news.length);
 	}
 
 	@Test
 	public void testGetLatestNews() {
+		List<DataAccessNews> result = service.getLatestNews(5);
+		Assert.assertEquals(5, result.size());
+		Assert.assertEquals(true,  result.get(0).getDate().getTimeInMillis() <= result.get(1).getDate().getTimeInMillis());
+		Assert.assertEquals(true,  result.get(1).getDate().getTimeInMillis() <= result.get(4).getDate().getTimeInMillis());
+		result = service.getLatestNews(1);
+		Assert.assertEquals(9, result.size());
+		Assert.assertEquals(true,  result.get(0).getDate().getTimeInMillis() <= result.get(1).getDate().getTimeInMillis());
+		Assert.assertEquals(true,  result.get(1).getDate().getTimeInMillis() <= result.get(8).getDate().getTimeInMillis());
+		result = service.getLatestNews(11);
+		Assert.assertEquals(true, result.isEmpty());
 	}
 
 	@Test
