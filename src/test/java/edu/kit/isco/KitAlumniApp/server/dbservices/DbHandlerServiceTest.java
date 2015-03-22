@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
@@ -15,6 +17,7 @@ import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessJob;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessTag;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
+
 
 public class DbHandlerServiceTest {
 
@@ -155,7 +158,10 @@ public class DbHandlerServiceTest {
 		job[9] = new DataAccessJob(Arrays.asList(new DataAccessTag[] {
 				DataAccessTag.THRESHOLD_WORKER, DataAccessTag.TRAINEE }),
 				"job_0", "short_info_0", "http://www.job_0_url.com");
-
+	}
+	
+	@BeforeClass
+	public static void init() {
 		DbHandlerService.saveNews(news[0]);
 		DbHandlerService.saveNews(news[1]);
 		DbHandlerService.saveNews(news[2]);

@@ -75,6 +75,17 @@
 		  <artifactId>httpclient</artifactId>
 		  <version>4.4</version>
 		</dependency>
+		<dependency>
+            <groupId>com.sun.jersey.jersey-test-framework</groupId>
+            <artifactId>jersey-test-framework-core</artifactId>
+            <version>1.19</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey.jersey-test-framework</groupId>
+            <artifactId>jersey-test-framework-external</artifactId>
+            <version>1.19</version>
+        </dependency>
 	</dependencies>
 
 	<build>
