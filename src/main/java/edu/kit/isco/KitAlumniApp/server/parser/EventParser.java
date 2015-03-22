@@ -137,8 +137,15 @@ public class EventParser implements Parser<DataAccessEvent> {
 			Element contentDiv = eventSite.getElementById("content");
 			Element table = contentDiv.select("table").first();
 			table = table.select("tbody").first();
-			if (table!=null)
+			if (table != null) {
+				Elements urls = table.select("a[href]");
+				for(Element url : urls)	{
+				    url.attr("href", url.absUrl("href"));
+				}
 				htmlText.append(table.html());
+			} else {
+				htmlText.append("Sorry, an error occurred while loading the content.");
+			}				
 			htmlText.append("</body></html>");
 			event.setAllText(htmlText.toString());
 		}
