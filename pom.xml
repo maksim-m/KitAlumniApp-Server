@@ -86,6 +86,11 @@
             <artifactId>jersey-test-framework-external</artifactId>
             <version>1.19</version>
         </dependency>
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>2.4.0</version>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -162,6 +167,21 @@
                     </execution>
                 </executions>
             </plugin>
+            
+                <plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.2</version>
+                    <configuration>
+                        <url>http://localhost:8080/manager/text</url>
+                        <server>TomcatServer</server>
+                        <path>/KitAlumniApp-Server</path>
+                        <username>admin</username>
+                        <password>admin</password>
+                    </configuration>
+                </plugin>
+                
+         
 
 			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
