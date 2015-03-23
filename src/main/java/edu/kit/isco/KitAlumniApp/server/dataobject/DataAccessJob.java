@@ -140,7 +140,19 @@ public class DataAccessJob implements DataAccessObject {
 						.append(" URL : ").append(this.url)
 						.toString();
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((url == null) ? 0 : url.hashCode());
+		return result;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -156,13 +168,6 @@ public class DataAccessJob implements DataAccessObject {
 			return false;
 		}
 		DataAccessJob other = (DataAccessJob) obj;
-		if (shortInfo == null) {
-			if (other.shortInfo != null) {
-				return false;
-			}
-		} else if (!shortInfo.equals(other.shortInfo)) {
-			return false;
-		}
 		if (title == null) {
 			if (other.title != null) {
 				return false;
@@ -179,4 +184,5 @@ public class DataAccessJob implements DataAccessObject {
 		}
 		return true;
 	}
+	
 }

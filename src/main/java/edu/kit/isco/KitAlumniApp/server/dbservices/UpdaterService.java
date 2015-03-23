@@ -39,6 +39,7 @@ public class UpdaterService implements ServletContextListener {
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		executor.shutdown();
+		DbHandlerService.close();
 		
 	}
 
@@ -47,6 +48,7 @@ public class UpdaterService implements ServletContextListener {
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
+		new DbHandlerService();
 		executor = Executors.newScheduledThreadPool(3);
 		executor.scheduleAtFixedRate(new JobUpdater(new JobParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);
 		executor.scheduleAtFixedRate(new NewsUpdater(new NewsParser()), 0, UPDATE_TIMEOUT, TimeUnit.MINUTES);

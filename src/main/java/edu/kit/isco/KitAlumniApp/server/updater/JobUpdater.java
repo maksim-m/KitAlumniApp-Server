@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessJob;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
@@ -42,27 +43,35 @@ public class JobUpdater extends AbstractUpdater {
 	 * @see edu.kit.isco.KitAlumniApp.server.updater.AbstractUpdater#dataChanged(java.util.List)
 	 */
 	@Override
-	public boolean dataChanged(List<DataAccessObject> list) {
+	public boolean dataChanged(List<DataAccessObject> items) {
 		List<DataAccessJob> load = DbHandlerService.getAllJobs();
 		if (load.isEmpty()) 
 			return true;
-		return !((DataAccessJob)list.get(0)).equals(load.get(load.size() - 1));
+		if (items.size() > load.size())
+			return true;
+		for (int i = 0; i < items.size(); i++) {
+			if (!load.contains((DataAccessJob) items.get(i))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.kit.isco.KitAlumniApp.server.updater.AbstractUpdater#selectChangedItems(java.util.List)
 	 */
 	@Override
-	public List<DataAccessObject> selectChangedItems(List<DataAccessObject> list) {
+	public List<DataAccessObject> selectChangedItems(List<DataAccessObject> items) {
 		List<DataAccessJob> load = DbHandlerService.getAllJobs();
+		List<DataAccessObject> changed = new ArrayList<DataAccessObject>();
 		if (load.isEmpty())
-			return list;
+			return items;
 		DataAccessJob last = load.get(load.size() - 1);
-		int i = 0;
-		while (i < list.size() && !last.equals(list.get(i))) {
-			i++;
+		for (int i = 0; i < items.size(); i++) {
+			if (!load.contains((DataAccessJob) items.get(i)))
+				changed.add(items.get(i));
 		}
-		return list.subList(0, i);
+		return changed;
 	}
 
 	/* (non-Javadoc)
@@ -80,10 +89,10 @@ public class JobUpdater extends AbstractUpdater {
 	/**
 	 * Sends a notification to every user device that activated the notification feature, for every job where the user 
 	 * is interested in, with informations about that job.
-	 * @param list the list with all new jobs
+	 * @param items the list with all new jobs
 	 */
 	@Override
-	public void sendNotification(final List<DataAccessObject> list) {
+	public void sendNotification(final List<DataAccessObject> items) {
 		new Thread(new Runnable() {
 
 			/* (non-Javadoc)
@@ -91,7 +100,7 @@ public class JobUpdater extends AbstractUpdater {
 			 */
 			@Override
 			public void run() {
-				for (DataAccessObject item : list) {
+				for (DataAccessObject item : items) {
 					
 					List<String> userRegIds = new ArrayList<String>();
 					DataAccessJob job = (DataAccessJob) item;
@@ -104,7 +113,7 @@ public class JobUpdater extends AbstractUpdater {
 						continue;
 					}
 					logger.info("Already in sendNotification");
-					logger.info("List size: " + list.size());
+					logger.info("List size: " + items.size());
 					
 					MulticastResult multicastResult = null;
 					Message message = new Message.Builder()

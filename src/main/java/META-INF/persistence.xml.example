@@ -12,19 +12,17 @@
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
 			
 			<!-- database host and name -->
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/kitalumniapp"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/ExampleDatabase"/>
 			<!-- username -->
-            <property name="hibernate.connection.username" value="test"/>
+            <property name="hibernate.connection.username" value="ExampleUserName"/>
 			<!-- password -->
-            <property name="hibernate.connection.password" value="testpassword"/>
-			
+            <property name="hibernate.connection.password" value="ExampleUserPassword"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+			<!-- for local (test) database use "create" -->
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="show_sql" value="ture"/>
             <property name="format_sql" value="true"/>
             <property name="use_sql_comments" value="true"/>
-            <!-- <property name="javax.persistence.schema-generation-action" value="create"/>
-            <property name="javax.persistence.schema-generation-target" value="database"/> -->
         </properties>
     </persistence-unit>
 </persistence>

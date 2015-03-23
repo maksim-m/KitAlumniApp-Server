@@ -53,7 +53,20 @@ public class EventParser implements Parser<DataAccessEvent> {
 	 * @see edu.kit.isco.KitAlumniApp.server.parser.HtmlParser#parseContent()
 	 */
 	public ArrayList<DataAccessEvent> parseContent() {
-		events = parseEventsList();
+		Elements c = doc.getElementsByClass("veranstaltungen");
+		Element a = c.select("a[href]").get(1);
+		String n = a.attr("abs:href");
+		n = n.substring(n.length() - 3, n.length() - 1);
+		int count = Integer.parseInt(n) / 12;
+		for (int i = 0; i <= count; i++) {
+			try {
+				doc = Jsoup.connect(SITE_URL + "/" + Integer.toString(12 * i) + "?").get();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			parseEventsList();
+		}
 		parseEventsDetails(events);
 		return events;
 	}
@@ -124,7 +137,15 @@ public class EventParser implements Parser<DataAccessEvent> {
 			Element contentDiv = eventSite.getElementById("content");
 			Element table = contentDiv.select("table").first();
 			table = table.select("tbody").first();
-			htmlText.append(table.html());
+			if (table != null) {
+				Elements urls = table.select("a[href]");
+				for(Element url : urls)	{
+				    url.attr("href", url.absUrl("href"));
+				}
+				htmlText.append(table.html());
+			} else {
+				htmlText.append("Sorry, an error occurred while loading the content.");
+			}				
 			htmlText.append("</body></html>");
 			event.setAllText(htmlText.toString());
 		}

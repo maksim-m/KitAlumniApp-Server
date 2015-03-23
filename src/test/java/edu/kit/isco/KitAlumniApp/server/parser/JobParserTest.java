@@ -7,13 +7,13 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class NewsParserTest {
+public class JobParserTest {
 	
-	NewsParser parser;
-
+	JobParser parser;
+	
 	@Before
 	public void setUp() throws Exception {
-		parser = new NewsParser();
+		parser = new JobParser();
 		parser.init();
 	}
 

@@ -26,77 +26,77 @@ public class DataAccessTag implements DataAccessObject {
 	/**
 	 * A tag object that represents the 'Employee in Data Administration' Category
 	 */
-	public static final DataAccessTag DATA_ADMINISTRATION    	= new DataAccessTag("Employee in Data Administration");
+	public static DataAccessTag DATA_ADMINISTRATION    	= new DataAccessTag("Employee in Data Administration");
 	
 	/**
 	 * A tag object that represents the 'Trainee' Category
 	 */
-	public static final DataAccessTag TRAINEE 			 		= new DataAccessTag("Trainee");
+	public static DataAccessTag TRAINEE 			 		= new DataAccessTag("Trainee");
 	
 	/**
 	 * A tag object that represents the 'Clerk' Category
 	 */
-	public static final DataAccessTag CLERK				 		= new DataAccessTag("Clerk");
+	public static DataAccessTag CLERK				 		= new DataAccessTag("Clerk");
 	
 	/**
 	 * A tag object that represents the 'Graduand' Category
 	 */
-	public static final DataAccessTag GRADUAND	 		 		= new DataAccessTag("Graduand");
+	public static DataAccessTag GRADUAND	 		 		= new DataAccessTag("Graduand");
 	
 	/**
 	 * A tag object that represents the 'Doctorand' Category
 	 */
-	public static final DataAccessTag DOCTORAND 		 		= new DataAccessTag("Doctorand");
+	public static DataAccessTag DOCTORAND 		 		= new DataAccessTag("Doctorand");
 	
 	/**
 	 * A tag object that represents the 'FH/BA Engineer' Category
 	 */
-	public static final DataAccessTag ENGINEER			 		= new DataAccessTag("FH/BA Engineer");
+	public static DataAccessTag ENGINEER			 		= new DataAccessTag("FH/BA Engineer");
 	
 	/**
 	 * A tag object that represents the 'Industrial Job' Category
 	 */
-	public static final DataAccessTag INDUSTRIAL				= new DataAccessTag("Industrial Job");
+	public static DataAccessTag INDUSTRIAL				= new DataAccessTag("Industrial Job");
 	
 	/**
 	 * A tag object that represents the 'Sales Occupation' Category
 	 */
-	public static final DataAccessTag SALES_OCCUPATION	 		= new DataAccessTag("Sales Occupation");
+	public static DataAccessTag SALES_OCCUPATION	 		= new DataAccessTag("Sales Occupation");
 	
 	/**
 	 * A tag object that represents the 'Threshold Worker' Category
 	 */
-	public static final DataAccessTag THRESHOLD_WORKER 			= new DataAccessTag("Threshold Worker");
+	public static DataAccessTag THRESHOLD_WORKER 			= new DataAccessTag("Threshold Worker");
 	
 	/**
 	 * A tag object that represents the 'Professor' Category
 	 */
-	public static final DataAccessTag PROFESSOR			 		= new DataAccessTag("Professor");
+	public static DataAccessTag PROFESSOR			 		= new DataAccessTag("Professor");
 	
 	/**
 	 * A tag object that represents the 'Technical Employee' Category
 	 */
-	public static final DataAccessTag TECHNICAL_EMPLOYEE		= new DataAccessTag("Technical Employee");
+	public static DataAccessTag TECHNICAL_EMPLOYEE		= new DataAccessTag("Technical Employee");
 	
 	/**
 	 * A tag object that represents the 'Student Research Project' Category
 	 */
-	public static final DataAccessTag STUDENT_RESEARCH_PROJECT 	= new DataAccessTag("Student Research Project");
+	public static DataAccessTag STUDENT_RESEARCH_PROJECT 	= new DataAccessTag("Student Research Project");
 	
 	/**
 	 * A tag object that represents the 'Administration' Category
 	 */
-	public static final DataAccessTag ADMINISTRATION 			= new DataAccessTag("Administration");
+	public static DataAccessTag ADMINISTRATION 			= new DataAccessTag("Administration");
 	
 	/**
 	 * A tag object that represents the 'Scientist' Category
 	 */
-	public static final DataAccessTag SCIENTIST 				= new DataAccessTag("Scientist");
+	public static DataAccessTag SCIENTIST 				= new DataAccessTag("Scientist");
 	
 	/**
 	 * A tag object that represents the 'Others' Category
 	 */
-	public static final DataAccessTag OTHERS 					= new DataAccessTag("Others");
+	public static DataAccessTag OTHERS 					= new DataAccessTag("Others");
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

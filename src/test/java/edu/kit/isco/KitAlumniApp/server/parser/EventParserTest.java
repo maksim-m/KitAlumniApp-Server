@@ -18,10 +18,6 @@ public class EventParserTest {
 		parser.init();
 	}
 
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void testInit() {
 		parser.init();

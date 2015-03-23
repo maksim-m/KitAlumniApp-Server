@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessJob;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessTag;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
 import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
@@ -70,6 +71,8 @@ public class JerseyRestService {
 		List<DataAccessNews> news = null;
 		if (id >= 0 && count > 0) {
 			news = DbHandlerService.getPreviousNews(id, count);
+		} else {
+			news = DbHandlerService.getAllNews();
 		}
 		return news;
 	}
@@ -109,6 +112,8 @@ public class JerseyRestService {
 		List<DataAccessJob> jobs = null;
 		if (id >= 0 && count > 0) {
 			jobs = DbHandlerService.getPreviousJobs(id, count);
+		} else {
+			jobs = DbHandlerService.getAllJobs();
 		}
 		return jobs;
 	}

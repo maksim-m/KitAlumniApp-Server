@@ -1,7 +1,9 @@
 package edu.kit.isco.KitAlumniApp.server.updater;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
@@ -30,7 +32,14 @@ public class NewsUpdater extends AbstractUpdater {
 		List<DataAccessNews> load = DbHandlerService.getAllNews();
 		if (load.isEmpty()) 
 			return true;
-		return !((DataAccessNews)list.get(0)).equals(load.get(load.size() - 1));
+		if (list.size() > load.size())
+			return true;
+		for (int i = 0; i < list.size(); i++) {
+			if (!load.contains((DataAccessNews) list.get(i))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/* (non-Javadoc)
@@ -39,15 +48,15 @@ public class NewsUpdater extends AbstractUpdater {
 	@Override
 	public List<DataAccessObject> selectChangedItems(List<DataAccessObject> list) {
 		List<DataAccessNews> load = DbHandlerService.getAllNews();
+		List<DataAccessObject> changed = new ArrayList<DataAccessObject>();
 		if (load.isEmpty())
 			return list;
 		DataAccessNews last = load.get(load.size() - 1);
-		int i = 0;
-		while (i < list.size() && !last.equals(list.get(i))) {
-			i++;
+		for (int i = 0; i < list.size(); i++) {
+			if (!load.contains((DataAccessNews) list.get(i)))
+				changed.add(list.get(i));
 		}
-		
-		return list.subList(0, i);
+		return changed;
 	}
 
 	/* (non-Javadoc)

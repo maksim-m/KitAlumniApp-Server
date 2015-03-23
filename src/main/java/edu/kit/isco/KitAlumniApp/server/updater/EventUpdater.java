@@ -1,5 +1,6 @@
 package edu.kit.isco.KitAlumniApp.server.updater;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
@@ -26,28 +27,35 @@ public class EventUpdater extends AbstractUpdater {
 	 * @see edu.kit.isco.KitAlumniApp.server.updater.AbstractUpdater#dataChanged(java.util.List)
 	 */
 	@Override
-	public boolean dataChanged(List<DataAccessObject> list) {
+	public boolean dataChanged(List<DataAccessObject> items) {
 		List<DataAccessEvent> load = DbHandlerService.getAllEvents();
 		if (load.isEmpty()) 
 			return true;
-		return !((DataAccessEvent)list.get(0)).equals(load.get(load.size() - 1));
+		if (items.size() > load.size())
+			return true;
+		for (int i = 0; i < items.size(); i++) {
+			if (!load.contains((DataAccessEvent) items.get(i))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.kit.isco.KitAlumniApp.server.updater.AbstractUpdater#selectChangedItems(java.util.List)
 	 */
 	@Override
-	public List<DataAccessObject> selectChangedItems(List<DataAccessObject> list) {
+	public List<DataAccessObject> selectChangedItems(List<DataAccessObject> items) {
 		List<DataAccessEvent> load = DbHandlerService.getAllEvents();
+		List<DataAccessObject> changed = new ArrayList<DataAccessObject>();
 		if (load.isEmpty())
-			return list;
+			return items;
 		DataAccessEvent last = load.get(load.size() - 1);
-		int i = 0;
-		while (i < list.size() && !last.equals(list.get(i))) {
-			i++;
+		for (int i = 0; i < items.size(); i++) {
+			if (!load.contains((DataAccessEvent) items.get(i)))
+				changed.add(items.get(i));
 		}
-		
-		return list.subList(0, i);
+		return changed;
 	}
 
 	/* (non-Javadoc)
@@ -56,8 +64,8 @@ public class EventUpdater extends AbstractUpdater {
 	@Override
 	public boolean updateDb(List<DataAccessObject> items) {
 		while (!items.isEmpty()) {
-			DataAccessEvent news = (DataAccessEvent) items.remove(items.size() - 1);
-			DbHandlerService.saveEvent(news);
+			DataAccessEvent event = (DataAccessEvent) items.remove(items.size() - 1);
+			DbHandlerService.saveEvent(event);
 		}
 		return true;
 	}

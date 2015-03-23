@@ -22,43 +22,58 @@ import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
  *
  */
 @WebListener 
-public class DbHandlerService implements ServletContextListener{
+public class DbHandlerService {
 	
-private static EntityManagerFactory FACTORY;
+private static EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("KitAlumniAppPersistenceUnit");;
 	
 	/**
 	 * Executed at server shutdown. Closes all connectivites to the database.
 	 */
-	@Override
-	public void contextDestroyed(ServletContextEvent arg0) {
+	public static void close() {
 		FACTORY.close();		
 	}
 
 	/**
 	 * Executed at server start. Initializes the database connectivity and saves the predefined job categories.
 	 */
-	@Override
-	public void contextInitialized(ServletContextEvent arg0) {
-		FACTORY = Persistence.createEntityManagerFactory("KitAlumniAppPersistenceUnit");
-		
+	static {
 		EntityManager manager = FACTORY.createEntityManager();
 		manager.getTransaction().begin();
-		manager.persist(DataAccessTag.DATA_ADMINISTRATION);
-		manager.persist(DataAccessTag.TRAINEE);
-		manager.persist(DataAccessTag.CLERK);
-		manager.persist(DataAccessTag.GRADUAND);
-		manager.persist(DataAccessTag.DOCTORAND);
-		manager.persist(DataAccessTag.ENGINEER);
-		manager.persist(DataAccessTag.INDUSTRIAL);
-		manager.persist(DataAccessTag.SALES_OCCUPATION);
-		manager.persist(DataAccessTag.THRESHOLD_WORKER);
-		manager.persist(DataAccessTag.PROFESSOR);
-		manager.persist(DataAccessTag.TECHNICAL_EMPLOYEE);
-		manager.persist(DataAccessTag.STUDENT_RESEARCH_PROJECT);
-		manager.persist(DataAccessTag.ADMINISTRATION);
-		manager.persist(DataAccessTag.SCIENTIST);
-		manager.persist(DataAccessTag.OTHERS);
-		manager.getTransaction().commit();
+		List<DataAccessTag> tags = manager.createQuery("FROM DataAccessTag", DataAccessTag.class).getResultList();
+		if (tags.isEmpty()) {
+			manager.persist(DataAccessTag.DATA_ADMINISTRATION);
+			manager.persist(DataAccessTag.TRAINEE);
+			manager.persist(DataAccessTag.CLERK);
+			manager.persist(DataAccessTag.GRADUAND);
+			manager.persist(DataAccessTag.DOCTORAND);
+			manager.persist(DataAccessTag.ENGINEER);
+			manager.persist(DataAccessTag.INDUSTRIAL);
+			manager.persist(DataAccessTag.SALES_OCCUPATION);
+			manager.persist(DataAccessTag.THRESHOLD_WORKER);
+			manager.persist(DataAccessTag.PROFESSOR);
+			manager.persist(DataAccessTag.TECHNICAL_EMPLOYEE);
+			manager.persist(DataAccessTag.STUDENT_RESEARCH_PROJECT);
+			manager.persist(DataAccessTag.ADMINISTRATION);
+			manager.persist(DataAccessTag.SCIENTIST);
+			manager.persist(DataAccessTag.OTHERS);
+			manager.getTransaction().commit();
+		} else {
+			DataAccessTag.DATA_ADMINISTRATION = tags.get(0);
+			DataAccessTag.TRAINEE = tags.get(1);
+			DataAccessTag.CLERK = tags.get(2);
+			DataAccessTag.GRADUAND = tags.get(3);
+			DataAccessTag.DOCTORAND = tags.get(4);
+			DataAccessTag.ENGINEER = tags.get(5);
+			DataAccessTag.INDUSTRIAL = tags.get(6);
+			DataAccessTag.SALES_OCCUPATION = tags.get(7);
+			DataAccessTag.THRESHOLD_WORKER = tags.get(8);
+			DataAccessTag.PROFESSOR = tags.get(9);
+			DataAccessTag.TECHNICAL_EMPLOYEE = tags.get(10);
+			DataAccessTag.STUDENT_RESEARCH_PROJECT = tags.get(11);
+			DataAccessTag.ADMINISTRATION = tags.get(12);
+			DataAccessTag.SCIENTIST = tags.get(13);
+			DataAccessTag.OTHERS = tags.get(14);
+		}
 		manager.close();
 		
 	}
@@ -74,13 +89,20 @@ private static EntityManagerFactory FACTORY;
 	}
 	
 	/**
-	 * Saves or Updates a given user into the database.
-	 * @param user the user object to save or update into the database
+	 * Saves a given user into the database.
+	 * @param user the user object to save into the database
 	 */
 	public static void saveUser(DataAccessUser user) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		manager.merge(user);
+		Query q = manager.createQuery("FROM DataAccessUser WHERE Id = :Id", DataAccessUser.class);
+		q.setParameter("Id", user.getId());
+		List<DataAccessUser> list = (List<DataAccessUser>) q.getResultList();
+		if (list.isEmpty()) {
+			manager.persist(user);
+		} else {
+			manager.merge(user);
+		}
 		manager.getTransaction().commit();
 		manager.close();
 	}
@@ -151,7 +173,7 @@ private static EntityManagerFactory FACTORY;
 	public static void saveNews(DataAccessNews news) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		manager.merge(news);
+		manager.persist(news);
 		manager.getTransaction().commit();
 		manager.close();
 	}
@@ -164,7 +186,7 @@ private static EntityManagerFactory FACTORY;
 	public static List<DataAccessNews> getLatestNews(long id) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		Query q = manager.createQuery("FROM DataAccessNews WHERE Id > :id", DataAccessNews.class);
+		Query q = manager.createQuery("FROM DataAccessNews WHERE Id > :id ORDER BY date", DataAccessNews.class);
 		q.setParameter("id", id);
 		List<DataAccessNews> list = (List<DataAccessNews>) q.getResultList();
 		manager.close();
@@ -180,7 +202,7 @@ private static EntityManagerFactory FACTORY;
 	public static List<DataAccessNews> getPreviousNews(long id, long count) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		Query q = manager.createQuery("FROM DataAccessNews WHERE Id < :id1 AND Id > :id2", DataAccessNews.class);
+		Query q = manager.createQuery("FROM DataAccessNews WHERE Id < :id1 AND Id >= :id2 ORDER BY date", DataAccessNews.class);
 		q.setParameter("id1", id);
 		q.setParameter("id2", id - count);
 		List<DataAccessNews> list = (List<DataAccessNews>) q.getResultList();
@@ -196,7 +218,7 @@ private static EntityManagerFactory FACTORY;
 		List<DataAccessNews> list = null;
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		Query q = manager.createQuery("FROM DataAccessNews", DataAccessNews.class);
+		Query q = manager.createQuery("FROM DataAccessNews ORDER BY date", DataAccessNews.class);
 		list = (List<DataAccessNews>) q.getResultList();
 		manager.close();
 		return list;
@@ -209,7 +231,7 @@ private static EntityManagerFactory FACTORY;
 	public static void saveEvent(DataAccessEvent event) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		manager.merge(event);
+		manager.persist(event);
 		manager.getTransaction().commit();
 		manager.close();
 	}
@@ -236,7 +258,7 @@ private static EntityManagerFactory FACTORY;
 	public static List<DataAccessEvent> getLatestEvents(long id) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		Query q = manager.createQuery("FROM DataAccessEvent WHERE Id > :id", DataAccessEvent.class);
+		Query q = manager.createQuery("FROM DataAccessEvent WHERE Id > :id ORDER BY date DESC", DataAccessEvent.class);
 		q.setParameter("id", id);
 		List<DataAccessEvent> list = (List<DataAccessEvent>) q.getResultList();
 		manager.close();
@@ -252,7 +274,7 @@ private static EntityManagerFactory FACTORY;
 	public static List<DataAccessEvent> getPreviousEvents(long id, long count) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		Query q = manager.createQuery("FROM DataAccessEvent WHERE Id < :id1 AND Id > :id2", DataAccessEvent.class);
+		Query q = manager.createQuery("FROM DataAccessEvent WHERE Id < :id1 AND Id > :id2 ORDER BY date DESC", DataAccessEvent.class);
 		q.setParameter("id1", id);
 		q.setParameter("id2", id - count);
 		List<DataAccessEvent> list = (List<DataAccessEvent>) q.getResultList();
@@ -267,7 +289,7 @@ private static EntityManagerFactory FACTORY;
 	public static List<DataAccessEvent> getAllEvents() {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		Query q = manager.createQuery("FROM DataAccessEvent", DataAccessEvent.class);
+		Query q = manager.createQuery("FROM DataAccessEvent ORDER BY date DESC", DataAccessEvent.class);
 		List<DataAccessEvent> list = (List<DataAccessEvent>) q.getResultList();
 		manager.close();
 		return list;
@@ -280,7 +302,7 @@ private static EntityManagerFactory FACTORY;
 	public static void saveJob(DataAccessJob job) {
 		EntityManager manager = DbHandlerService.getEntityManager();
 		manager.getTransaction().begin();
-		manager.merge(job);
+		manager.persist(job);
 		manager.getTransaction().commit();
 		manager.close();
 	}
@@ -329,21 +351,4 @@ private static EntityManagerFactory FACTORY;
 		manager.close();
 		return list;
 	}
-	
-	/**
-	 * Returns a list of jobs which fit to a given job category. 
-	 * @param tag the job category, for which we want all jobs
-	 * @return the list of jobs
-	 */
-	public static List<DataAccessJob> getJobsByTag(DataAccessTag tag) {
-		/* REQUIRED???? */
-		EntityManager manager = DbHandlerService.getEntityManager();
-		manager.getTransaction().begin();
-		Query q = manager.createQuery("SELECT j FROM DataAccessJob j JOIN j.tags t WHERE t.name = :name", DataAccessJob.class);
-		q.setParameter("name", tag.getName());
-		List<DataAccessJob> list = (List<DataAccessJob>) q.getResultList();
-		manager.close();
-		return list;
-	}
-	
 }
