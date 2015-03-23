@@ -115,7 +115,19 @@ public class DataAccessUser implements DataAccessObject {
 	 * @param tags new list of job categories
 	 */
 	public void setTags(List<DataAccessTag> tags) {this.tags = tags;}
-	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((clientId == null) ? 0 : clientId.hashCode());
+		return result;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -138,13 +150,7 @@ public class DataAccessUser implements DataAccessObject {
 		} else if (!clientId.equals(other.clientId)) {
 			return false;
 		}
-		if (password == null) {
-			if (other.password != null) {
-				return false;
-			}
-		} else if (!password.equals(other.password)) {
-			return false;
-		}
 		return true;
 	}
+	
 }
