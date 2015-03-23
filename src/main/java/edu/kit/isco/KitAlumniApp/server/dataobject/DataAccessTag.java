@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 
 /**
  * A class that represents the job categories
@@ -17,6 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @Entity
 @Table(name = "tag")
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class DataAccessTag implements DataAccessObject {
 	
 	
