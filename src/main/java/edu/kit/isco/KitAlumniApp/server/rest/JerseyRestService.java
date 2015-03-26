@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessJob;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
-import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessTag;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
 import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
@@ -165,7 +164,7 @@ public class JerseyRestService {
 	@Consumes("application/json")
 	public void updateUser(DataAccessUser user) {
 		DataAccessUser prev = DbHandlerService.getUser(user.getClientId());
-		if (prev.getPassword().equals(user.getPassword())) {
+		if (prev!=null && prev.getPassword().equals(user.getPassword())) {
 			prev.setClientId(user.getClientId());
 			prev.setPassword(user.getPassword());
 			ArrayList<DataAccessTag> list = new ArrayList<DataAccessTag>();
@@ -186,7 +185,7 @@ public class JerseyRestService {
 	@Consumes("application/json")
 	public void deleteUser(DataAccessUser user) {
 		DataAccessUser prev = DbHandlerService.getUser(user.getClientId());
-		if (prev.getPassword().equals(user.getPassword())) {
+		if (prev!=null && prev.getPassword().equals(user.getPassword())) {
 			DbHandlerService.deleteUser(user.getClientId());
 		}
 	}

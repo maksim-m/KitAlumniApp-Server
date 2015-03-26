@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessJob;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessUser;
@@ -39,6 +41,25 @@ public class JobUpdater extends AbstractUpdater {
 		sender = new Sender(ApiKeyInitializer.getApiKey());
 	}
 	
+	/**
+	 * Checks whether a job is already part of the database.
+	 * @param job the event that is checked for
+	 * @return true if the job is already saved, false if it is not
+	 */
+	private boolean containsJob(DataAccessJob job) {
+		EntityManager em = DbHandlerService.getEntityManager();
+		em.getTransaction().begin();
+		Query q = em.createQuery("FROM DataAccessJob WHERE title=:param1 AND url=:param2 AND short_info=:param3", DataAccessJob.class);
+		q.setParameter("param1", job.getTitle());
+		q.setParameter("param2", job.getUrl());
+		q.setParameter("param3", job.getShortInfo());
+		List<DataAccessJob> list = (List<DataAccessJob>) q.getResultList();
+		em.close();
+		if (!list.isEmpty())
+			return true;
+		return false;
+	}
+	
 	/* (non-Javadoc)
 	 * @see edu.kit.isco.KitAlumniApp.server.updater.AbstractUpdater#dataChanged(java.util.List)
 	 */
@@ -50,7 +71,7 @@ public class JobUpdater extends AbstractUpdater {
 		if (items.size() > load.size())
 			return true;
 		for (int i = 0; i < items.size(); i++) {
-			if (!load.contains((DataAccessJob) items.get(i))) {
+			if (!containsJob((DataAccessJob) items.get(i))) {
 				return true;
 			}
 		}
@@ -68,7 +89,7 @@ public class JobUpdater extends AbstractUpdater {
 			return items;
 		DataAccessJob last = load.get(load.size() - 1);
 		for (int i = 0; i < items.size(); i++) {
-			if (!load.contains((DataAccessJob) items.get(i)))
+			if (!containsJob((DataAccessJob) items.get(i)))
 				changed.add(items.get(i));
 		}
 		return changed;

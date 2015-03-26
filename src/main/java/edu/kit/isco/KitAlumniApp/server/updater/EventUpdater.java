@@ -3,6 +3,9 @@ package edu.kit.isco.KitAlumniApp.server.updater;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
@@ -22,6 +25,24 @@ public class EventUpdater extends AbstractUpdater {
 	public EventUpdater(Parser parser) {
 		super(parser);
 	}
+	
+	/**
+	 * Checks whether an event is already part of the database.
+	 * @param event the event that is checked for
+	 * @return true if the event is already saved, false if it is not
+	 */
+	private boolean containsEvent(DataAccessEvent event) {
+		EntityManager em = DbHandlerService.getEntityManager();
+		em.getTransaction().begin();
+		Query q = em.createQuery("FROM DataAccessEvent WHERE title=:param1 AND url=:param2", DataAccessEvent.class);
+		q.setParameter("param1", event.getTitle());
+		q.setParameter("param2", event.getUrl());
+		List<DataAccessEvent> list = (List<DataAccessEvent>) q.getResultList();
+		em.close();
+		if (!list.isEmpty())
+			return true;
+		return false;
+	}
 
 	/* (non-Javadoc)
 	 * @see edu.kit.isco.KitAlumniApp.server.updater.AbstractUpdater#dataChanged(java.util.List)
@@ -34,7 +55,7 @@ public class EventUpdater extends AbstractUpdater {
 		if (items.size() > load.size())
 			return true;
 		for (int i = 0; i < items.size(); i++) {
-			if (!load.contains((DataAccessEvent) items.get(i))) {
+			if (!containsEvent((DataAccessEvent) items.get(i))) {
 				return true;
 			}
 		}
@@ -52,7 +73,7 @@ public class EventUpdater extends AbstractUpdater {
 			return items;
 		DataAccessEvent last = load.get(load.size() - 1);
 		for (int i = 0; i < items.size(); i++) {
-			if (!load.contains((DataAccessEvent) items.get(i)))
+			if (!containsEvent((DataAccessEvent) items.get(i)))
 				changed.add(items.get(i));
 		}
 		return changed;

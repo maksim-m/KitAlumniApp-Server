@@ -36,7 +36,7 @@ public class JobParser implements Parser<DataAccessJob> {
 	/**
 	 * Container for parsed jobs
 	 */
-	private ArrayList<DataAccessJob> jobList;
+	private ArrayList<DataAccessJob> jobList = new ArrayList<DataAccessJob>();;
 	
 	/**
 	 * the HTML-Document
@@ -47,7 +47,7 @@ public class JobParser implements Parser<DataAccessJob> {
 	 * @see edu.kit.isco.KitAlumniApp.server.parser.Parser#init()
 	 */
 	public void init() {
-		jobList = new ArrayList<DataAccessJob>();
+		jobList.clear();
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost post = new HttpPost(siteUrl);
 		post.setHeader("Content-Type", "text/html; charset=utf-8");

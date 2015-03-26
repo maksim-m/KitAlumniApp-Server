@@ -3,7 +3,9 @@ package edu.kit.isco.KitAlumniApp.server.updater;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessEvent;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessNews;
 import edu.kit.isco.KitAlumniApp.server.dataobject.DataAccessObject;
 import edu.kit.isco.KitAlumniApp.server.dbservices.DbHandlerService;
@@ -23,6 +25,24 @@ public class NewsUpdater extends AbstractUpdater {
 	public NewsUpdater(Parser parser) {
 		super(parser);
 	}
+	
+	/**
+	 * Checks whether a news is already part of the database.
+	 * @param job the news that is checked for
+	 * @return true if the news is already saved, false if it is not
+	 */
+	private boolean containsNews(DataAccessNews news) {
+		EntityManager em = DbHandlerService.getEntityManager();
+		em.getTransaction().begin();
+		Query q = em.createQuery("FROM DataAccessJob WHERE title=:param1 AND url=:param2", DataAccessNews.class);
+		q.setParameter("param1", news.getTitle());
+		q.setParameter("param2", news.getUrl());
+		List<DataAccessNews> list = (List<DataAccessNews>) q.getResultList();
+		em.close();
+		if (!list.isEmpty())
+			return true;
+		return false;
+	}
 
 	/* (non-Javadoc)
 	 * @see edu.kit.isco.KitAlumniApp.server.updater.AbstractUpdater#dataChanged(java.util.List)
@@ -35,7 +55,7 @@ public class NewsUpdater extends AbstractUpdater {
 		if (list.size() > load.size())
 			return true;
 		for (int i = 0; i < list.size(); i++) {
-			if (!load.contains((DataAccessNews) list.get(i))) {
+			if (!containsNews((DataAccessNews) list.get(i))) {
 				return true;
 			}
 		}
@@ -53,7 +73,7 @@ public class NewsUpdater extends AbstractUpdater {
 			return list;
 		DataAccessNews last = load.get(load.size() - 1);
 		for (int i = 0; i < list.size(); i++) {
-			if (!load.contains((DataAccessNews) list.get(i)))
+			if (!containsNews((DataAccessNews) list.get(i)))
 				changed.add(list.get(i));
 		}
 		return changed;
