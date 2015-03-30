@@ -11,7 +11,7 @@
     <listener-class>edu.kit.isco.KitAlumniApp.server.dbservices.UpdaterService</listener-class>
   </listener>
   
-  <servlet>
+ <!-- <servlet>
     <servlet-name>SendAllMessagesServlet</servlet-name>
     <servlet-class>
       edu.kit.isco.KitAlumniApp.server.gcm.servlets.SendAllMessagesServlet
@@ -36,8 +36,8 @@
   <servlet-mapping>
     <servlet-name>HomeServlet</servlet-name>
     <url-pattern>/home</url-pattern>
-  </servlet-mapping>
-<servlet>
+  </servlet-mapping>  --> 
+<servlet> 
     <servlet-name>kit-alumni-app-server</servlet-name>
     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
     <init-param>
