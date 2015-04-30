@@ -53,7 +53,7 @@ public class EventParser implements Parser<DataAccessEvent> {
 	 * @see edu.kit.isco.KitAlumniApp.server.parser.HtmlParser#parseContent()
 	 */
 	public ArrayList<DataAccessEvent> parseContent() {
-		Elements c = doc.getElementsByClass("veranstaltungen");
+		Elements c = doc.getElementsByClass("tabelle3");
 		Element a = c.select("a[href]").get(1);
 		String n = a.attr("abs:href");
 		n = n.substring(n.length() - 3, n.length() - 1);
