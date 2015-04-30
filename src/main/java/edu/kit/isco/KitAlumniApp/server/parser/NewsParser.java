@@ -72,6 +72,7 @@ public class NewsParser implements Parser<DataAccessNews> {
 	            try {
 	            	date = parseDate(c.text());
 	            } catch (Exception e) {
+	            	date = Calendar.getInstance();
 	            }
 	            String link ="";
 	            String title ="";
